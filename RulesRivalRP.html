@@ -1,0 +1,2660 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RivalRP | Правила сервера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f3ff;
+      --bg-2: #f0ebff;
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: rgba(255, 255, 255, 0.94);
+      --line: rgba(121, 98, 216, 0.14);
+      --line-strong: rgba(121, 98, 216, 0.2);
+      --text: #1f1a2e;
+      --muted: #5d5972;
+      --muted-soft: #7d7997;
+      --accent: #8b74ff;
+      --accent-strong: #6957de;
+      --accent-soft: #f1ebff;
+      --success: #32c98d;
+      --warning: #f0b663;
+      --shadow: 0 24px 56px rgba(89, 70, 177, 0.12);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #06070d;
+      --bg-2: #120d1b;
+      --panel: rgba(18, 14, 24, 0.78);
+      --panel-strong: rgba(21, 16, 31, 0.94);
+      --line: rgba(168, 148, 255, 0.22);
+      --line-strong: rgba(168, 148, 255, 0.32);
+      --text: #f1ebff;
+      --muted: #c0b7dd;
+      --muted-soft: #9d94c7;
+      --accent: #9f7dff;
+      --accent-strong: #7c5ef6;
+      --accent-soft: rgba(159, 125, 255, 0.14);
+      --success: #55d39a;
+      --warning: #f5cb7d;
+      --shadow: 0 30px 70px rgba(0, 0, 0, 0.52);
+    }
+
+    * {
+      box-sizing: border-box;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(139, 116, 255, 0.14), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(139, 116, 255, 0.1), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      line-height: 1.6;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.entry-open {
+      overflow: hidden;
+    }
+
+    .entry-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(139, 116, 255, 0.2), transparent 28%),
+        radial-gradient(circle at 82% 78%, rgba(105, 87, 222, 0.14), transparent 30%),
+        linear-gradient(145deg, var(--bg), var(--bg-2));
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+      visibility: visible;
+    }
+
+    body[data-theme="dark"] .entry-screen {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(159, 125, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 82% 78%, rgba(124, 94, 246, 0.18), transparent 30%),
+        linear-gradient(145deg, #05060a, #170f26);
+    }
+
+    .entry-screen.is-leaving {
+      opacity: 0;
+      transform: translateY(-24px);
+      visibility: hidden;
+      transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0.65s;
+      pointer-events: none;
+    }
+
+    .entry-screen[hidden] {
+      display: none;
+    }
+
+    .entry-content {
+      width: min(100%, 560px);
+      text-align: center;
+    }
+
+    .entry-mark {
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 24px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #08070b;
+      color: #fff;
+      box-shadow: 0 18px 40px rgba(105, 87, 222, 0.28);
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .entry-mark img,
+    .brand-mark img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+    }
+
+    .entry-content h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .entry-content p {
+      margin: 14px 0 30px;
+      color: var(--muted);
+    }
+
+    .entry-languages {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: 0 12px 28px rgba(89, 70, 177, 0.08);
+    }
+
+    .entry-languages::before {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 6px;
+      width: calc(50% - 10px);
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 10px 20px rgba(105, 87, 222, 0.2);
+      content: "";
+      pointer-events: none;
+      transform: translateX(0);
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .entry-screen[data-hover-lang="ru"] .entry-languages::before {
+      transform: translateX(calc(100% + 8px));
+    }
+
+    .entry-language {
+      position: relative;
+      z-index: 1;
+      min-height: 56px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      transition: color 0.2s ease;
+    }
+
+    .entry-language:hover,
+    .entry-language:focus-visible,
+    .entry-screen[data-hover-lang="uk"] [data-entry-lang="uk"],
+    .entry-screen[data-hover-lang="ru"] [data-entry-lang="ru"] {
+      color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .entry-screen,
+      .entry-language,
+      .entry-languages::before {
+        transition-duration: 0.01ms;
+      }
+    }
+
+    body[data-theme="dark"] {
+      background:
+        radial-gradient(circle at top left, rgba(159, 125, 255, 0.22), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(124, 94, 246, 0.14), transparent 24%),
+        linear-gradient(180deg, #05060a 0%, #120d1b 35%, #170f26 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 248, 255, 0.72);
+      border-bottom: 1px solid rgba(121, 98, 216, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    body[data-theme="dark"] .topbar {
+      background: rgba(12, 10, 18, 0.72);
+      border-bottom-color: rgba(168, 148, 255, 0.12);
+    }
+
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #08070b;
+      color: white;
+      box-shadow: 0 12px 26px rgba(105, 87, 222, 0.22);
+      font-weight: 900;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted-soft);
+      letter-spacing: 0.18em;
+      font-size: 0.56rem;
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .lang-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 12px;
+      background: rgba(139, 116, 255, 0.08);
+      border: 1px solid rgba(121, 98, 216, 0.12);
+      margin-right: 4px;
+      overflow: hidden;
+    }
+
+    .lang-switch__track {
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      width: calc(50% - 7px);
+      height: calc(100% - 8px);
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 10px 18px rgba(105, 87, 222, 0.14);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 0;
+    }
+
+    .lang-switch[data-lang="ru"] .lang-switch__track {
+      transform: translateX(calc(100% + 4px));
+    }
+
+    .lang-btn {
+      position: relative;
+      z-index: 1;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 9px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .lang-btn.active {
+      color: white;
+    }
+
+    .navlinks a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .navlinks a:hover {
+      background: rgba(121, 98, 216, 0.04);
+      border-color: rgba(121, 98, 216, 0.12);
+      color: var(--text);
+    }
+
+    body[data-theme="dark"] .navlinks a {
+      color: var(--muted);
+    }
+
+    body[data-theme="dark"] .navlinks a:hover {
+      background: rgba(159, 125, 255, 0.08);
+      border-color: rgba(168, 148, 255, 0.18);
+      color: var(--text);
+    }
+
+    .navlinks .discord-rules-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .navlinks .discord-rules-trigger:hover,
+    .navlinks .discord-rules-trigger:focus-visible {
+      background: rgba(121, 98, 216, 0.06);
+      border-color: rgba(121, 98, 216, 0.14);
+      color: var(--text);
+      outline: none;
+    }
+
+    body[data-theme="dark"] .navlinks .discord-rules-trigger {
+      color: var(--muted);
+    }
+
+    .discord-rules-trigger svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+    }
+
+    .contacts-menu {
+      position: relative;
+    }
+
+    .contacts-menu > summary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+      transition: all 0.2s ease;
+    }
+
+    .contacts-menu > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .contacts-menu > summary::after {
+      width: 6px;
+      height: 6px;
+      border: solid currentColor;
+      border-width: 0 1.5px 1.5px 0;
+      content: "";
+      transform: rotate(45deg);
+      transition: transform 0.2s ease;
+    }
+
+    .contacts-menu[open] > summary::after {
+      transform: rotate(225deg);
+    }
+
+    .contacts-menu > summary:hover,
+    .contacts-menu > summary:focus-visible {
+      background: rgba(121, 98, 216, 0.04);
+      border-color: rgba(121, 98, 216, 0.12);
+      color: var(--text);
+      outline: none;
+    }
+
+    .contacts-menu__panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      z-index: 60;
+      display: grid;
+      width: max-content;
+      min-width: 190px;
+      padding: 6px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: var(--panel-strong);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-8px) scale(0.97);
+      transform-origin: top right;
+      transition: opacity 0.24s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.24s;
+    }
+
+    .contacts-menu[open] .contacts-menu__panel {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      transition-delay: 0s;
+    }
+
+    .contacts-menu[open] .contacts-menu__panel > * {
+      animation: contact-item-enter 0.28s both;
+    }
+
+    .contacts-menu[open] .contacts-menu__panel > *:nth-child(2) {
+      animation-delay: 0.04s;
+    }
+
+    @keyframes contact-item-enter {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .navlinks .contacts-menu__panel a {
+      justify-content: flex-start;
+      gap: 10px;
+      min-height: 40px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .contacts-menu__panel svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .discord-rules-dialog {
+      width: min(600px, calc(100% - 32px));
+      max-height: min(82vh, 740px);
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      background: var(--panel-strong);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(16px) scale(0.98);
+      transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), display 0.22s allow-discrete, overlay 0.22s allow-discrete;
+    }
+
+    .discord-rules-dialog[open] {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @starting-style {
+      .discord-rules-dialog[open] {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+      }
+    }
+
+    .discord-rules-dialog::backdrop {
+      background: rgba(5, 6, 13, 0);
+      backdrop-filter: blur(0);
+      transition: background 0.22s ease, backdrop-filter 0.22s ease, display 0.22s allow-discrete, overlay 0.22s allow-discrete;
+    }
+
+    .discord-rules-dialog[open]::backdrop {
+      background: rgba(5, 6, 13, 0.62);
+      backdrop-filter: blur(5px);
+    }
+
+    @starting-style {
+      .discord-rules-dialog[open]::backdrop {
+        background: rgba(5, 6, 13, 0);
+        backdrop-filter: blur(0);
+      }
+    }
+
+    .discord-rules-dialog__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 26px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .discord-rules-dialog__eyebrow {
+      color: var(--accent-strong);
+      font-size: 0.66rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .discord-rules-dialog h2 {
+      margin: 5px 0 6px;
+      font-size: 1.3rem;
+      line-height: 1.25;
+    }
+
+    .discord-rules-dialog__intro {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .discord-rules-dialog__close {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .discord-rules-dialog__close:hover,
+    .discord-rules-dialog__close:focus-visible {
+      background: var(--accent-soft);
+      color: var(--text);
+      transform: rotate(90deg);
+      outline: none;
+    }
+
+    .discord-rules-dialog__close svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .discord-rules-dialog__body {
+      max-height: calc(82vh - 136px);
+      overflow-y: auto;
+      padding: 8px 26px 24px;
+    }
+
+    .discord-rules-section + .discord-rules-section {
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .discord-rules-section h3 {
+      margin: 18px 0 4px;
+      color: var(--accent-strong);
+      font-size: 0.95rem;
+    }
+
+    .discord-rules-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .discord-rules-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .discord-rules-list strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .discord-rule-penalty {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .discord-rule-penalty strong {
+      display: inline;
+      color: var(--accent-strong);
+      font-size: inherit;
+    }
+
+    .discord-rules-terms p {
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .discord-rules-terms strong {
+      color: var(--text);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contacts-menu__panel,
+      .contacts-menu__panel > *,
+      .discord-rules-dialog,
+      .discord-rules-dialog::backdrop {
+        animation-duration: 0.01ms;
+        transition-duration: 0.01ms;
+        transition-delay: 0s;
+      }
+    }
+
+    .navlinks .primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: white;
+      box-shadow: 0 12px 24px rgba(105, 87, 222, 0.2);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 12px 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 8px 18px rgba(89, 70, 177, 0.08);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+    }
+
+    body[data-theme="dark"] .theme-toggle {
+      background: rgba(18, 15, 26, 0.8);
+      border-color: rgba(168, 148, 255, 0.18);
+      color: var(--text);
+    }
+
+    .theme-toggle__icon {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-soft), rgba(255,255,255,0.12));
+      font-size: 0.85rem;
+    }
+
+    .theme-toggle__label {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: center;
+      padding: 54px 0 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(139, 116, 255, 0.08);
+      border: 1px solid rgba(139, 116, 255, 0.14);
+      color: var(--accent-strong);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      box-shadow: 0 0 0 7px rgba(139, 116, 255, 0.08);
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(3.1rem, 5vw, 5.6rem);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .accent {
+      background: linear-gradient(135deg, var(--accent), #cbbcff 75%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(121, 98, 216, 0.14);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(105, 87, 222, 0.12);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: white;
+      border-color: transparent;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.4);
+      color: var(--text);
+    }
+
+    body[data-theme="dark"] .btn.secondary {
+      background: rgba(20, 15, 31, 0.9);
+      border-color: rgba(168, 148, 255, 0.22);
+      color: var(--text);
+    }
+
+    .hero-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 22px 22px 18px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(245, 240, 255, 0.82));
+      border: 1px solid rgba(121, 98, 216, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    body[data-theme="dark"] .hero-panel {
+      background: linear-gradient(180deg, rgba(17, 12, 25, 0.9), rgba(24, 18, 36, 0.95));
+      border-color: rgba(168, 148, 255, 0.18);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -24% 35%;
+      height: 220px;
+      background: radial-gradient(circle, rgba(139, 116, 255, 0.1), transparent 62%);
+      pointer-events: none;
+    }
+
+    .panel-top,
+    .hero-panel h2,
+    .hero-panel p,
+    .mini-stats {
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(50, 201, 141, 0.08);
+      border: 1px solid rgba(50, 201, 141, 0.18);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 7px rgba(50, 201, 141, 0.08);
+    }
+
+    .hero-panel h2 {
+      margin: 28px 0 12px;
+      font-size: clamp(1.8rem, 2.7vw, 2.7rem);
+      letter-spacing: -0.06em;
+    }
+
+    .hero-panel p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .mini-stat {
+      padding-top: 12px;
+      border-top: 1px solid rgba(121, 98, 216, 0.12);
+    }
+
+    .mini-stat strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.5rem, 1.8vw, 2rem);
+      letter-spacing: -0.05em;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.67rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 18px 0 20px;
+    }
+
+    .section-head h2 {
+      margin: 12px 0 0;
+      font-size: clamp(2.2rem, 3vw, 3.2rem);
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .search-wrap {
+      width: min(360px, 100%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(121, 98, 216, 0.14);
+      color: var(--muted);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    body[data-theme="dark"] .search-wrap {
+      background: rgba(18, 15, 26, 0.8);
+      border-color: rgba(168, 148, 255, 0.18);
+      color: var(--muted);
+    }
+
+    .search-wrap:focus-within {
+      border-color: rgba(105, 87, 222, 0.28);
+      box-shadow: 0 0 0 3px rgba(105, 87, 222, 0.05);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 0.94rem;
+    }
+
+    .search-wrap input::placeholder {
+      color: var(--muted-soft);
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0 20px;
+    }
+
+    .filter-tab {
+      position: relative;
+      border: 1px solid rgba(121, 98, 216, 0.14);
+      background: rgba(255, 255, 255, 0.42);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    body[data-theme="dark"] .filter-tab {
+      background: rgba(18, 15, 26, 0.8);
+      border-color: rgba(168, 148, 255, 0.18);
+      color: var(--muted);
+    }
+
+    .filter-tab::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139, 116, 255, 0.14), rgba(105, 87, 222, 0.12));
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .filter-tab:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(105, 87, 222, 0.06);
+    }
+
+    .filter-tab:hover::before,
+    .filter-tab.active::before {
+      transform: translateX(0);
+    }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 14px 24px rgba(105, 87, 222, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 24px;
+      padding-bottom: 80px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(121, 98, 216, 0.12);
+      border-radius: 22px;
+      padding: 14px 12px;
+      box-shadow: 0 18px 30px rgba(89, 70, 177, 0.05);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    body[data-theme="dark"] .sidebar {
+      background: linear-gradient(180deg, rgba(17, 12, 25, 0.88), rgba(22, 16, 32, 0.95));
+      border-color: rgba(168, 148, 255, 0.18);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .side-title {
+      padding: 8px 12px 12px;
+      color: var(--muted-soft);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .side-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 56px;
+      padding: 14px 14px 14px 12px;
+      margin: 6px 0;
+      border-radius: 16px;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+      overflow: hidden;
+    }
+
+    .side-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 110px at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(139, 116, 255, 0.22), transparent 78%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .side-link > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-link .num {
+      display: inline-flex;
+      width: 34px;
+      justify-content: center;
+      color: var(--muted-soft);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      transition: color 0.25s ease;
+    }
+
+    .side-link.active,
+    .side-link:hover {
+      background:
+        radial-gradient(circle 110px at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(139, 116, 255, 0.22), transparent 78%),
+        rgba(139, 116, 255, 0.12);
+      border-color: rgba(139, 116, 255, 0.22);
+      color: var(--accent-strong);
+      box-shadow: 0 10px 18px rgba(105, 87, 222, 0.08);
+      transform: translateX(4px);
+    }
+
+    .side-link.active::before,
+    .side-link:hover::before {
+      opacity: 1;
+    }
+
+    .side-link.active .num,
+    .side-link:hover .num {
+      color: var(--accent-strong);
+    }
+
+    .side-link.punishment {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 12px 24px rgba(105, 87, 222, 0.22);
+      font-weight: 800;
+    }
+
+    .rules {
+      display: grid;
+      gap: 18px;
+    }
+
+    .rule-group {
+      background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(245,240,255,0.72));
+      border: 1px solid rgba(121, 98, 216, 0.12);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 32px rgba(89, 70, 177, 0.05);
+      scroll-margin-top: 110px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    body[data-theme="dark"] .rule-group {
+      background: linear-gradient(180deg, rgba(17, 22, 36, 0.88), rgba(21, 28, 47, 0.92));
+      border-color: rgba(150, 147, 255, 0.2);
+      box-shadow: 0 20px 34px rgba(8, 12, 20, 0.25);
+    }
+
+    .rule-group:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 38px rgba(89, 70, 177, 0.08);
+    }
+
+    .rule-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(121, 98, 216, 0.1);
+      background: linear-gradient(180deg, rgba(139, 116, 255, 0.02), rgba(139, 116, 255, 0));
+    }
+
+    .rule-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(139, 116, 255, 0.12), rgba(105, 87, 222, 0.06));
+      border: 1px solid rgba(121, 98, 216, 0.14);
+      color: var(--accent-strong);
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .rule-title h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      letter-spacing: -0.04em;
+      color: var(--accent-strong);
+    }
+
+    .rule-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .rule-list {
+      padding: 8px 20px 10px;
+      background: rgba(246,242,255,0.5);
+    }
+
+    body[data-theme="dark"] .rule-list {
+      background: rgba(15, 12, 23, 0.82);
+    }
+
+    .green-zone-map {
+      display: block;
+      width: calc(100% - 40px);
+      height: auto;
+      margin: 16px 20px 0;
+      border: 1px solid rgba(121, 98, 216, 0.16);
+      border-radius: 16px;
+      background: #103b38;
+      box-shadow: 0 14px 30px rgba(10, 50, 44, 0.16);
+    }
+
+    .green-zone-caption {
+      margin: 8px 20px 0;
+      color: var(--muted-soft);
+      font-size: 0.76rem;
+    }
+
+    .rule {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(121, 98, 216, 0.06);
+    }
+
+    .rule:hover,
+    .rule:focus-within {
+      border-radius: 10px;
+      background:
+        radial-gradient(circle 190px at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(139, 116, 255, 0.16), transparent 78%);
+    }
+
+    .rule:focus-within {
+      outline: 1px solid rgba(139, 116, 255, 0.24);
+      outline-offset: 4px;
+    }
+
+    .rule:focus-within:not(:hover) {
+      background:
+        radial-gradient(circle 190px at 50% 50%, rgba(139, 116, 255, 0.12), transparent 78%);
+    }
+
+    .rule:last-child { border-bottom: none; }
+
+    .rule .num {
+      color: var(--accent-strong);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding-top: 4px;
+    }
+
+    .rule p {
+      margin: 0;
+      color: #382f52;
+      font-size: 0.95rem;
+    }
+
+    body[data-theme="dark"] .rule p {
+      color: var(--muted);
+    }
+
+    .rule-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .rule-header {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      row-gap: 6px;
+    }
+
+    .rule-title-inline {
+      color: var(--accent-strong);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .rule-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      padding-top: 6px;
+      border-top: 1px solid rgba(121, 98, 216, 0.08);
+    }
+
+    .rule-meta > span:last-child {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .rule-meta > span:last-child.penalty-ban {
+      color: #86172a;
+      font-weight: 800;
+    }
+
+    .rule-meta > span:last-child.penalty-other {
+      color: #653600;
+      font-weight: 800;
+    }
+
+    body[data-theme="dark"] .rule-meta > span:last-child.penalty-ban {
+      color: #ff6879;
+    }
+
+    body[data-theme="dark"] .rule-meta > span:last-child.penalty-other {
+      color: #ffb454;
+    }
+
+    .rule strong {
+      color: var(--accent-strong);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(121, 98, 216, 0.14);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    .tag.violet {
+      background: linear-gradient(135deg, rgba(139, 116, 255, 0.14), rgba(105, 87, 222, 0.08));
+      border-color: rgba(105, 87, 222, 0.18);
+      color: var(--accent-strong);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+
+    .punishment-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #b95a00, #914500);
+      color: #ffffff;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(153, 70, 0, 0.2);
+    }
+
+    .punishment-tag.penalty-ban {
+      background: linear-gradient(135deg, #c52c43, #a51d34);
+      box-shadow: 0 8px 18px rgba(177, 32, 56, 0.28);
+    }
+
+    body[data-theme="dark"] .punishment-tag {
+      box-shadow: 0 10px 22px rgba(217, 130, 32, 0.3);
+    }
+
+    body[data-theme="dark"] .punishment-tag.penalty-ban {
+      box-shadow: 0 10px 22px rgba(255, 104, 121, 0.36);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .side-link::before {
+        transition: none;
+      }
+    }
+
+    .empty {
+      display: none;
+      width: min(100%, 420px);
+      min-height: 210px;
+      margin: 0 auto;
+      padding: 10px 20px 18px;
+      border-radius: 22px;
+      border: 1px dashed rgba(121, 98, 216, 0.26);
+      background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(242,236,255,0.72));
+      box-shadow: 0 14px 28px rgba(105, 87, 222, 0.06);
+      text-align: center;
+      color: var(--muted);
+      font-family: inherit;
+      justify-self: center;
+      align-self: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-8px);
+    }
+
+    body[data-theme="dark"] .empty {
+      background: linear-gradient(135deg, rgba(19, 17, 30, 0.9), rgba(25, 20, 39, 0.92));
+      border-color: rgba(168, 148, 255, 0.26);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .empty > * {
+      display: block;
+      width: 100%;
+    }
+
+    .empty-icon {
+      margin-bottom: 12px;
+      font-size: 1.9rem;
+      line-height: 1;
+      color: var(--accent-strong);
+    }
+
+    .empty-title {
+      margin-bottom: 8px;
+      font-size: 1.12rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--accent-strong);
+    }
+
+    .empty-subtitle {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid rgba(121, 98, 216, 0.08);
+      padding: 24px 0 40px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .content { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding: 10px;
+      }
+      .side-title { display: none; }
+      .side-link { white-space: nowrap; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { height: 72px; }
+      .navlinks a:not(.primary) { display: none; }
+      .navlinks .contacts-menu__panel a { display: flex; }
+      .navlinks .discord-rules-trigger {
+        width: 42px;
+        padding: 0;
+      }
+      .discord-rules-trigger__label { display: none; }
+      .section-head { align-items: flex-start; }
+      .search-wrap { width: 100%; }
+      .mini-stats { grid-template-columns: 1fr; }
+      .rule-title { padding: 16px 18px; }
+      .rule-list { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="entry-screen" id="entryScreen" aria-label="Вибір мови" data-hover-lang="uk">
+    <div class="entry-content">
+      <span class="entry-mark" aria-hidden="true"><img src="photo_2026-10-05_18-57-39.jpg" alt="" /></span>
+      <h1>RivalRP</h1>
+      <p>Оберіть мову / Выберите язык</p>
+      <div class="entry-languages">
+        <button class="entry-language" type="button" data-entry-lang="uk">Українська</button>
+        <button class="entry-language" type="button" data-entry-lang="ru">Русский</button>
+      </div>
+    </div>
+  </section>
+
+  <header class="topbar">
+    <div class="wrap nav">
+      <a href="#top" class="brand" aria-label="RivalRP home">
+        <span class="brand-mark"><img src="photo_2026-10-05_18-57-39.jpg" alt="" /></span>
+        <span>
+          RivalRP
+          <small>rules</small>
+        </span>
+      </a>
+
+      <nav class="navlinks" aria-label="Main navigation">
+        <div class="lang-switch" aria-label="Вибір мови" data-lang="uk">
+          <span class="lang-switch__track" aria-hidden="true"></span>
+          <button class="lang-btn active" type="button" data-lang="uk">UA</button>
+          <button class="lang-btn" type="button" data-lang="ru">RU</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключити тему">
+          <span class="theme-toggle__icon">☀</span>
+          <span class="theme-toggle__label">Світла</span>
+        </button>
+        <a href="#rules" data-i18n="navRules">Правила</a>
+        <button class="discord-rules-trigger" type="button" data-discord-rules-open data-i18n-aria="discordRulesLink" data-i18n-title="discordRulesLink" aria-label="Правила Discord" title="Правила Discord">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3.75v4h4M9 12h6M9 15.5h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="discord-rules-trigger__label" data-i18n="discordRulesLink">Правила Discord</span>
+        </button>
+        <details class="contacts-menu" id="contacts">
+          <summary data-i18n="navContacts">Контакти</summary>
+          <div class="contacts-menu__panel">
+            <a href="https://t.me/+mv0H27uhUXwzN2Ji" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m22 2-7 20-4-9-9-4 20-7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2 11 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span data-i18n="contactTelegram">Основна група</span>
+            </a>
+            <a href="https://discord.gg/wapYbSrWr" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M7.5 7.3c2.8-1.1 6.2-1.1 9 0l2.1 8.1c.2.7-.5 1.3-1.2 1l-2.3-1.2H8.9l-2.3 1.2c-.7.3-1.4-.3-1.2-1l2.1-8.1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 11h.01M15 11h.01M8.3 7.1l-.8-1.3M15.7 7.1l.8-1.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <span>Discord</span>
+            </a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero" aria-label="Intro">
+      <div>
+        <h1>
+          <span data-i18n="heroLine1">Чесна гра.</span><br>
+          <span class="accent" data-i18n="heroLine2">Повагa.</span><br>
+          <span data-i18n="heroLine3">Репутація.</span>
+        </h1>
+        <p class="subtitle" data-i18n="heroSubtitle">Правила сервера створені для комфортного і справедливого RolePlay. Вони відповідають за якість атмосфери, взаємодію між гравцями та стабільну гру без хаосу.</p>
+      </div>
+
+      <aside class="hero-panel" aria-label="Summary panel">
+        <div class="panel-top">
+            <span data-i18n="projectDoc">Вже 13.5 розділів</span>
+          <span class="status" data-i18n="projectStatus">Активно</span>
+        </div>
+
+        <h2 data-i18n="rulesTitle">Правила сервера</h2>
+        <p data-i18n="projectSummary">Обов’язкові для всіх гравців незалежно від досвіду, рангу й ролі.</p>
+
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <strong>13.5</strong>
+            <span data-i18n="statSections">Розділів</span>
+          </div>
+          <div class="mini-stat">
+            <strong>24/7</strong>
+            <span data-i18n="statAvailable">Доступно</span>
+          </div>
+          <div class="mini-stat">
+            <strong>100%</strong>
+            <span data-i18n="statEveryone">Для всіх</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="rules" aria-label="Rules section">
+      <div class="section-head">
+        <div>
+          <h2 data-i18n="rulesTitle">Правила сервера</h2>
+          <p data-i18n="rulesSubtitle">Оберіть розділ або скористайтеся пошуком за потрібним пунктом.</p>
+        </div>
+
+        <label class="search-wrap" aria-label="Search rules">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18C12.6974 18 14.2774 17.3247 15.5138 16.2309L19.7071 20.4243L20.4142 19.7172L16.2209 15.5239C17.3147 14.2875 18 12.7074 18 11C18 7.13401 14.866 4 11 4ZM11 5.5C14.0376 5.5 16.5 7.96243 16.5 11C16.5 14.0376 14.0376 16.5 11 16.5C7.96243 16.5 5.5 14.0376 5.5 11C5.5 7.96243 7.96243 5.5 11 5.5Z" fill="currentColor"/>
+          </svg>
+          <input id="search" type="search" placeholder="Пошук правила, бану або штрафу..." data-i18n-placeholder="searchPlaceholder" data-i18n-aria="searchAria" aria-label="Пошук правил" />
+        </label>
+      </div>
+
+      <div class="filter-tabs" aria-label="Фільтри правил">
+        <button class="filter-tab active" type="button" data-filter="all" data-i18n="filterAll">Всі</button>
+        <button class="filter-tab" type="button" data-filter="light-cases" data-i18n="filterLightCases">Легкі випадки</button>
+        <button class="filter-tab" type="button" data-filter="bans" data-i18n="filterBans">Бани</button>
+        <button class="filter-tab" type="button" data-filter="heavy-bans" data-i18n="filterHeavy">Тяжкі</button>
+      </div>
+
+      <div class="content">
+        <aside class="sidebar" aria-label="Rule navigation">
+          <div class="side-title" data-i18n="navTitle">Навігація</div>
+          <a class="side-link punishment" href="#punishments"><span class="num">&nbsp;</span><span data-i18n="navPunishments">Система покарань</span></a>
+          <a class="side-link active" href="#general"><span class="num">01</span><span data-i18n="navGeneral">Загальні</span></a>
+          <a class="side-link" href="#rp"><span class="num">02</span><span data-i18n="navRp">RolePlay</span></a>
+          <a class="side-link" href="#meta"><span class="num">03</span><span data-i18n="navMeta">Meta / IC / OOC</span></a>
+          <a class="side-link" href="#escape"><span class="num">04</span><span data-i18n="navEscape">Відхід від RP</span></a>
+          <a class="side-link" href="#transport"><span class="num">05</span><span data-i18n="navTransport">Транспорт</span></a>
+          <a class="side-link" href="#chat"><span class="num">06</span><span data-i18n="navChat">Спілкування</span></a>
+          <a class="side-link" href="#cheats"><span class="num">07</span><span data-i18n="navCheats">Баги / Чити</span></a>
+          <a class="side-link" href="#afk"><span class="num">08</span><span data-i18n="navAfk">AFK / FARM</span></a>
+          <a class="side-link" href="#accounts"><span class="num">09</span><span data-i18n="navAccounts">Аккаунти</span></a>
+          <a class="side-link" href="#economy"><span class="num">10</span><span data-i18n="navEconomy">Економіка</span></a>
+          <a class="side-link" href="#content"><span class="num">11</span><span data-i18n="navContent">Контент</span></a>
+          <a class="side-link" href="#admin"><span class="num">12</span><span data-i18n="navAdmin">Адмін</span></a>
+          <a class="side-link" href="#recidiv"><span class="num">13</span><span data-i18n="navRecidiv">Рецидив</span></a>
+          <a class="side-link" href="#zzz"><span class="num">13.5</span><span data-i18n="navZzz">ЗЗ</span></a>
+        </aside>
+
+        <div class="rules" id="ruleContainer">
+          <article class="rule-group" id="general" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">✦</span>
+              <div>
+                <h3 data-i18n="groupGeneralTitle">1. Загальні правила</h3>
+                <p data-i18n="groupGeneralDesc">Основи поведінки на сервері</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">1.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.1</span><span class="tag violet">Загальне</span></div><strong class="rule-title-inline">Незнання правил проекту не звільняє від відповідальності.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">1.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.2</span><span class="tag violet">Ігровий процес</span></div><strong class="rule-title-inline">Заборонено навмисно заважати ігровому процесу інших гравців.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">1.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.3</span><span class="tag violet">Адміністрація</span></div><strong class="rule-title-inline">Заборонено видавати себе за адміністрацію або представників проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
+              <div class="rule"><span class="num">1.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.4</span><span class="tag violet">Адмін-робота</span></div><strong class="rule-title-inline">Заборонено перешкоджати роботі адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">1.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.5</span><span class="tag violet">Уразливості</span></div><strong class="rule-title-inline">Заборонено використовувати вразливості правил або ігрових систем для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="rp" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">◌</span>
+              <div>
+                <h3 data-i18n="groupRpTitle">2. Role Play</h3>
+                <p data-i18n="groupRpDesc">Логіка персонажа та RP-поведінка</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">2.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.1</span><span class="tag violet">DM</span></div><strong class="rule-title-inline">DM — вбивство/напад без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.2</span><span class="tag violet">RDM</span></div><strong class="rule-title-inline">RDM — випадкове вбивство гравця без причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.3</span><span class="tag violet">VDM</span></div><strong class="rule-title-inline">VDM — навмисне вбивство гравця транспортом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
+              <div class="rule"><span class="num">2.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.4</span><span class="tag violet">DB</span></div><strong class="rule-title-inline">DB — стрілянина з транспорту з порушенням RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.5</span><span class="tag violet">RK</span></div><strong class="rule-title-inline">RK — повернення після смерті з метою помсти.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.6</span><span class="tag violet">TK</span></div><strong class="rule-title-inline">TK — вбивство союзника/члена своєї організації без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.7</span><span class="tag violet">SK</span></div><strong class="rule-title-inline">SK — вбивство гравця на місці появи.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
+              <div class="rule"><span class="num">2.8</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.8</span><span class="tag violet">PG</span></div><strong class="rule-title-inline">PG — вчинення нереалістичних дій або ігнорування очевидної небезпеки.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.9</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.9</span><span class="tag violet">Fear RP</span></div><strong class="rule-title-inline">Fear RP — відсутність страху за життя персонажа в небезпечній ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.10</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.10</span><span class="tag violet">Force RP</span></div><strong class="rule-title-inline">Force RP — нав’язування іншому гравцю результату RP-ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.11</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.11</span><span class="tag violet">NonRP</span></div><strong class="rule-title-inline">NonRP — дії, які порушують логіку RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+              <div class="rule"><span class="num">2.12</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.12</span><span class="tag violet">NRD</span></div><strong class="rule-title-inline">NRD — нереалістичне управління транспортом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">2.13</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.13</span><span class="tag violet">BH</span></div><strong class="rule-title-inline">BH — використання Bunny Hop для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">2.14</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.14</span><span class="tag violet">No Pain / НР</span></div><strong class="rule-title-inline">No Pain / НР — відсутність реакції на серйозні травми.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="meta" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">◈</span>
+              <div>
+                <h3 data-i18n="groupMetaTitle">3. Meta / IC / OOC</h3>
+                <p data-i18n="groupMetaDesc">Взаємодія ігрового світу та реальності</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">3.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.1</span><span class="tag violet">MG</span></div><strong class="rule-title-inline">MG — використання інформації, отриманої поза грою, в IC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">3.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.2</span><span class="tag violet">Mixing</span></div><strong class="rule-title-inline">Mixing — змішування IC та OOC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">3.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.3</span><span class="tag violet">Зовнішні чати</span></div><strong class="rule-title-inline">Заборонено використовувати інформацію з Discord, стрімів або сторонніх чатів, яку персонаж не міг отримати IC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+              <div class="rule"><span class="num">3.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.4</span><span class="tag violet">OOC</span></div><strong class="rule-title-inline">Заборонено використовувати OOC-конфлікти як причину для IC-дій.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="escape" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⛶</span>
+              <div>
+                <h3 data-i18n="groupEscapeTitle">4. Відхід від RP</h3>
+                <p data-i18n="groupEscapeDesc">Ухилення від сценарної ситуації</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">4.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.1</span><span class="tag violet">Combat Log</span></div><strong class="rule-title-inline">Combat Log — вихід з гри під час активної RP-ситуації для уникнення наслідків.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
+              <div class="rule"><span class="num">4.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.2</span><span class="tag violet">RP Escape</span></div><strong class="rule-title-inline">RP Escape — навмисний втеча від RP-ситуації забороненим способом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">4.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.3</span><span class="tag violet">Використання механік</span></div><strong class="rule-title-inline">Заборонено використовувати механіки гри для навмисного уникнення RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">4.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.4</span><span class="tag violet">Cop Baiting</span></div><strong class="rule-title-inline">Cop Baiting — навмисна провокація співробітників поліції без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="transport" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⟡</span>
+              <div>
+                <h3 data-i18n="groupTransportTitle">5. Транспорт</h3>
+                <p data-i18n="groupTransportDesc">Водіння, транспорт і інциденти</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">5.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.1</span><span class="tag violet">Car Ramming</span></div><strong class="rule-title-inline">Car Ramming — навмисний таран гравця або транспорту без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">5.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.2</span><span class="tag violet">Транспорт як зброя</span></div><strong class="rule-title-inline">Заборонено використовувати транспорт як зброю без відповідної RP-ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">5.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.3</span><span class="tag violet">Нереалістична їзда</span></div><strong class="rule-title-inline">Заборонена нереалістична їзда, що порушує RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+              <div class="rule"><span class="num">5.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.4</span><span class="tag violet">Блокування зон</span></div><strong class="rule-title-inline">Заборонено навмисно блокувати дороги, входи та важливі ігрові зони.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="chat" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">☰</span>
+              <div>
+                <h3 data-i18n="groupChatTitle">6. Спілкування</h3>
+                <p data-i18n="groupChatDesc">Чат, наклеп, реклама та конфлікти</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">6.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.1</span><span class="tag violet">Оскорблення</span></div><strong class="rule-title-inline">Заборонені образи гравців.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+              <div class="rule"><span class="num">6.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.2</span><span class="tag violet">Адміністрація</span></div><strong class="rule-title-inline">Заборонені образи адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">6.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.3</span><span class="tag violet">Погрози</span></div><strong class="rule-title-inline">Заборонені загрози реальним розправою.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
+              <div class="rule"><span class="num">6.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.4</span><span class="tag violet">Персональні дані</span></div><strong class="rule-title-inline">Заборонена публікація чужих персональних даних.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">6.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.5</span><span class="tag violet">Спам / флуд</span></div><strong class="rule-title-inline">Заборонені спам і флуд, що заважають роботі чату.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">6.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.6</span><span class="tag violet">Реклама</span></div><strong class="rule-title-inline">Заборонена реклама сторонніх проєктів без дозволу адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
+              <div class="rule"><span class="num">6.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.7</span><span class="tag violet">Провокація</span></div><strong class="rule-title-inline">Заборонена навмисна провокація конфліктів між гравцями.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="cheats" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">✧</span>
+              <div>
+                <h3 data-i18n="groupCheatsTitle">7. Баги та чити</h3>
+                <p data-i18n="groupCheatsDesc">Заборонене програмне забезпечення та помилки</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">7.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.1</span><span class="tag violet">Bug Abuse</span></div><strong class="rule-title-inline">Bug Abuse — використання багів для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
+              <div class="rule"><span class="num">7.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.2</span><span class="tag violet">Критичний баг</span></div><strong class="rule-title-inline">Масове або навмисне використання критичного багу.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">7.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.3</span><span class="tag violet">Чит</span></div><strong class="rule-title-inline">Використання читів або забороненого ПЗ.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 30 днів</span></div></div></div>
+              <div class="rule"><span class="num">7.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.4</span><span class="tag violet">Повторний чит</span></div><strong class="rule-title-inline">Повторне використання читів після попереднього покарання.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">7.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.5</span><span class="tag violet">Розповсюдження</span></div><strong class="rule-title-inline">Розповсюдження читів або забороненого ПЗ.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">7.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.6</span><span class="tag violet">Обхід античита</span></div><strong class="rule-title-inline">Обхід античита або систем захисту проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 30 днів / Permanent Ban</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="afk" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⬢</span>
+              <div>
+                <h3 data-i18n="groupAfkTitle">8. AFK / FARM</h3>
+                <p data-i18n="groupAfkDesc">Автофарм, AFK та автоматизація</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">8.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.1</span><span class="tag violet">AFK-Farm</span></div><strong class="rule-title-inline">AFK-Farm — автоматичне отримання ресурсів без активної участі гравця.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
+              <div class="rule"><span class="num">8.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.2</span><span class="tag violet">Автофарм</span></div><strong class="rule-title-inline">Використання сторонніх програм для автоматичного фарму.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
+              <div class="rule"><span class="num">8.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.3</span><span class="tag violet">Макроси</span></div><strong class="rule-title-inline">Використання макросів або автоматизації для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="accounts" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⌁</span>
+              <div>
+                <h3 data-i18n="groupAccountsTitle">9. Аккаунти</h3>
+                <p data-i18n="groupAccountsDesc">Обхід блокувань та безпека облікового запису</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">9.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.1</span><span class="tag violet">Bypass Ban</span></div><strong class="rule-title-inline">Bypass Ban — обхід блокування через інший аккаунт.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">9.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.2</span><span class="tag violet">Повторний обхід</span></div><strong class="rule-title-inline">Повторний обхід блокування.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">9.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.3</span><span class="tag violet">Чужий акаунт</span></div><strong class="rule-title-inline">Використання чужого аккаунта з метою обходу покарання.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">9.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.4</span><span class="tag violet">Взлом</span></div><strong class="rule-title-inline">Крадіжка або злом чужого аккаунта.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="economy" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">◫</span>
+              <div>
+                <h3 data-i18n="groupEconomyTitle">10. Ігрова економіка</h3>
+                <p data-i18n="groupEconomyDesc">Валюта, ресурси та торгівля</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">10.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.1</span><span class="tag violet">Багова валюта</span></div><strong class="rule-title-inline">Використання багів для отримання ігрової валюти або майна.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
+              <div class="rule"><span class="num">10.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.2</span><span class="tag violet">Шахрайство</span></div><strong class="rule-title-inline">Шахрайство з ігровими ресурсами.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
+              <div class="rule"><span class="num">10.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.3</span><span class="tag violet">Масове шахрайство</span></div><strong class="rule-title-inline">Масове шахрайство.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">10.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.4</span><span class="tag violet">Реальні гроші</span></div><strong class="rule-title-inline">Продаж/купівля ігрових цінностей за реальні гроші поза дозволеними способами проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="content" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">☼</span>
+              <div>
+                <h3 data-i18n="groupContentTitle">11. Заборонений контент</h3>
+                <p data-i18n="groupContentDesc">Сексуальний і неприйнятний вміст</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">11.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.1</span><span class="tag violet">ERP</span></div><strong class="rule-title-inline">ERP — сексуалізований RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
+              <div class="rule"><span class="num">11.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.2</span><span class="tag violet">ERP з неповнолітніми</span></div><strong class="rule-title-inline">ERP з неповнолітніми персонажами.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">11.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.3</span><span class="tag violet">Заборонений контент</span></div><strong class="rule-title-inline">Розповсюдження сексуального або іншого забороненого контенту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="admin" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⚑</span>
+              <div>
+                <h3 data-i18n="groupAdminTitle">12. Адміністрація</h3>
+                <p data-i18n="groupAdminDesc">Повноваження, порядок та дисципліна</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">12.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.1</span><span class="tag violet">Особисті інтереси</span></div><strong class="rule-title-inline">Використання адміністративних повноважень в особистих цілях.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">12.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.2</span><span class="tag violet">Покривання</span></div><strong class="rule-title-inline">Покривання порушень друзів або знайомих.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">12.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.3</span><span class="tag violet">Особиста неприязнь</span></div><strong class="rule-title-inline">Видача покарання з особистої неприязні.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">12.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.4</span><span class="tag violet">Службова інформація</span></div><strong class="rule-title-inline">Розголошення службової інформації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">12.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.5</span><span class="tag violet">Передача акаунта</span></div><strong class="rule-title-inline">Передача адміністративного аккаунта іншій людині.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">12.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.6</span><span class="tag violet">Зловживання повноваженнями</span></div><strong class="rule-title-inline">Зловживання адміністративними повноваженнями.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів + зняття з посади</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="recidiv" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">⌬</span>
+              <div>
+                <h3 data-i18n="groupRecidivTitle">13. Рецидив</h3>
+                <p data-i18n="groupRecidivDesc">Повторні порушення та суворість санкцій</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">13.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.1</span><span class="tag violet">Рецидив</span></div><strong class="rule-title-inline">При повторному порушенні термін покарання може бути збільшений залежно від історії гравця.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від тяжкості та історії</span></div></div></div>
+              <div class="rule"><span class="num">13.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.2</span><span class="tag violet">Систематичні порушення</span></div><strong class="rule-title-inline">Систематичне порушення правил може призвести до збільшення строку аж до Permanent Ban.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban / збільшений термін</span></div></div></div>
+              <div class="rule"><span class="num">13.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.3</span><span class="tag violet">Масові порушення</span></div><strong class="rule-title-inline">Масове або особливо тяжке порушення може бути покаране суворіше стандартного терміну.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від ситуації</span></div></div></div>
+              <div class="rule"><span class="num">13.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.4</span><span class="tag violet">Докази</span></div><strong class="rule-title-inline">Адміністратор зобов’язаний враховувати докази, тяжкість порушення та історію покарань гравця перед видачею Ban.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Адміністративна оцінка</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="punishments" data-category="fines bans heavy-bans">
+            <div class="rule-title">
+              <span class="rule-icon">⚖</span>
+              <div>
+                <h3 data-i18n="groupPunishmentsTitle">ПОКАРАННЯ</h3>
+                <p data-i18n="groupPunishmentsDesc">Базова система відповідальності</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">P1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Базовий тип</span></div><strong class="rule-title-inline">Важливо: вказані покарання є базовими. При повторному або особливо тяжкому порушенні строк може бути збільшений.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від повтору та серйозності порушення</span></div></div></div>
+              <div class="rule"><span class="num">P2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Мінімум</span></div><strong class="rule-title-inline">Мінімальний термін бану — 1 день.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">P3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Докази</span></div><strong class="rule-title-inline">Усі покарання мають видаватися лише при наявності достатніх доказів.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Адміністративна перевірка</span></div></div></div>
+              <div class="rule"><span class="num">P4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Неприязнь</span></div><strong class="rule-title-inline">Адміністратор не має права видавати покарання виключно на основі особистого переконання або неприязні.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Скасування / перевірка</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="zzz" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon">◎</span>
+              <div>
+                <h3 data-i18n="groupZzzTitle">13.5. ЗЗ — Зелена зона</h3>
+                <p data-i18n="groupZzzDesc">Безпечна територія для відпочинку та безконфліктної гри</p>
+              </div>
+            </div>
+            <img class="green-zone-map" src="greenzonesrivalrp.png" alt="Мапа зелених зон RivalRP" data-i18n-alt="greenMapAlt" width="2560" height="1457" loading="lazy" />
+            <p class="green-zone-caption" data-i18n="greenMapCaption">Мапа зелених зон сервера RivalRP</p>
+            <div class="rule-list">
+              <div class="rule"><span class="num">13.5.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.1</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено доставати та використовувати зброю.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">13.5.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.2</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено наносити шкоду гравцям та використовувати тазер.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день або попередження</span></div></div></div>
+              <div class="rule"><span class="num">13.5.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.3</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено доставати або використовувати нелегальні предмети.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">13.5.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.4</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено перебувати в масці.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження</span></div></div></div>
+              <div class="rule"><span class="num">13.5.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.5</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено починати бійки та конфлікти.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">13.5.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.6</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено здійснювати пограбування, викрадення та інші злочини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+            </div>
+          </article>
+
+          <div class="empty" id="empty">
+            <span class="empty-icon">⌕</span>
+            <span class="empty-title" data-i18n="emptyTitle">Нічого не знайдено</span>
+            <span class="empty-subtitle" data-i18n="emptySubtitle">Спробуйте змінити запит або фільтр.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> <span data-i18n="footerRights">RivalRP. Усі права захищено.</span></span>
+      <span data-i18n="footerHelp">Питання по правилах — звертайтеся до адміністрації сервера.</span>
+    </div>
+  </footer>
+
+  <dialog class="discord-rules-dialog" id="discordRulesDialog" aria-labelledby="discordRulesTitle" aria-describedby="discordRulesIntro">
+    <div class="discord-rules-dialog__header">
+      <div>
+        <span class="discord-rules-dialog__eyebrow">Discord</span>
+        <h2 id="discordRulesTitle" data-i18n="discordRulesTitle">ПРАВИЛА DISCORD-СЕРВЕРА</h2>
+        <p class="discord-rules-dialog__intro" id="discordRulesIntro" data-i18n="discordRulesIntro">Правила касаются общения в Discord, а не игрового процесса.</p>
+      </div>
+      <button class="discord-rules-dialog__close" type="button" data-discord-rules-close data-i18n-aria="discordRulesClose" aria-label="Закрити правила Discord">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="discord-rules-dialog__body">
+      <section class="discord-rules-section">
+        <h3>1. Общие правила</h3>
+        <ol class="discord-rules-list">
+          <li><strong>1.1. Незнание правил не освобождает от ответственности.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Ban 1d → Ban 3d.</span></li>
+          <li><strong>1.2. Запрещено намеренно обходить наказания через другой аккаунт.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d → Permanent Ban.</span></li>
+          <li><strong>1.3. Запрещено выдавать себя за администрацию, разработчиков или представителей проекта.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 3–7d.</span></li>
+          <li><strong>1.4. Запрещено намеренно мешать работе администрации и модерации.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Timeout 1–24h → Ban 1–3d.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>2. Общение</h3>
+        <ol class="discord-rules-list">
+          <li><strong>2.1. Запрещены оскорбления, унижения и переходы на личности.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Timeout 1–6h → Ban 1d.</span></li>
+          <li><strong>2.2. Запрещены оскорбления администрации за исполнение обязанностей.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Timeout 6–24h → Ban 1–3d.</span></li>
+          <li><strong>2.3. Запрещены угрозы реальной расправой или причинением вреда.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>2.4. Запрещена травля, целенаправленная провокация и преследование участников.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Timeout 12–24h → Ban 3–7d.</span></li>
+          <li><strong>2.5. Запрещён спам и флуд сообщениями, реакциями, упоминаниями и командами.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Timeout 1–6h → Ban 1d.</span></li>
+          <li><strong>2.6. Запрещено злоупотреблять @everyone, @here и массовыми упоминаниями.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Timeout 6–24h → Ban 1–3d.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>3. Контент</h3>
+        <ol class="discord-rules-list">
+          <li><strong>3.1. Запрещён NSFW-контент и материалы сексуального характера.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>3.2. Запрещён шок-контент, жестокие материалы и намеренная публикация неприятного контента.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 3–14d.</span></li>
+          <li><strong>3.3. Запрещены материалы, содержащие угрозы, призывы к насилию или опасным действиям.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>3.4. Запрещено распространение вредоносных файлов, вирусов, стилеров и другого вредоносного ПО.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>4. Реклама</h3>
+        <ol class="discord-rules-list">
+          <li><strong>4.1. Запрещена реклама сторонних проектов, серверов, Discord-серверов и услуг без разрешения администрации.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Ban 1–3d.</span></li>
+          <li><strong>4.2. Запрещена массовая рассылка рекламы участникам сервера через личные сообщения.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>4.3. Запрещено приглашать участников проекта на сторонние проекты с целью их переманивания.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 3–14d.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>5. Голосовые каналы</h3>
+        <ol class="discord-rules-list">
+          <li><strong>5.1. Запрещены громкие звуки, музыка и намеренный микрофонный спам.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Server Mute → Timeout 1–6h.</span></li>
+          <li><strong>5.2. Запрещено включать мешающие звуки и использовать SoundPad для помех общению.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Mute → Ban 1d.</span></li>
+          <li><strong>5.3. Запрещено намеренно мешать проведению собеседований, мероприятий и других мероприятий проекта.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Timeout 6–24h → Ban 1–3d.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>6. Личные данные и безопасность</h3>
+        <ol class="discord-rules-list">
+          <li><strong>6.1. Запрещено распространять личные данные участников без их согласия.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+          <li><strong>6.2. Запрещено публиковать номера телефонов, адреса, документы, фотографии и другие персональные данные.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+          <li><strong>6.3. Запрещены попытки взлома аккаунтов, фишинг и кража аккаунтов.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>7. Использование Discord</h3>
+        <ol class="discord-rules-list">
+          <li><strong>7.1. Запрещено использовать баги Discord или сервера для получения преимущества.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>7.2. Запрещено использовать сторонние программы для нанесения вреда серверу.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 14–30d → Permanent Ban.</span></li>
+          <li><strong>7.3. Запрещено намеренно рейдить сервер или организовывать массовые атаки.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>8. Обход наказаний</h3>
+        <ol class="discord-rules-list">
+          <li><strong>8.1. Запрещено обходить Timeout, Ban или другие ограничения через альтернативный аккаунт.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>8.2. Повторный обход наказания после получения предупреждения может привести к постоянной блокировке.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Permanent Ban.</span></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>9. Администрация</h3>
+        <ol class="discord-rules-list">
+          <li><strong>9.1. Решения администрации должны выполняться, если они не противоречат правилам проекта.</strong><span class="discord-rule-penalty"><strong data-discord-uk="Покарання за навмисне ігнорування:">Наказание за намеренное игнорирование:</strong> Warn → Timeout → Ban 1–3d.</span></li>
+          <li><strong>9.2. Запрещено провоцировать администрацию с целью получения наказания или конфликта.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Warn → Timeout 6–24h → Ban 1–3d.</span></li>
+          <li><strong>9.3. Запрещено выдавать себя за администратора или использовать чужие административные полномочия.</strong><span class="discord-rule-penalty"><strong>Наказание:</strong> Ban 7–30d.</span></li>
+          <li><strong>9.4. Администрация вправе применить более строгое наказание при массовом, систематическом или особо тяжёлом нарушении.</strong></li>
+        </ol>
+      </section>
+      <section class="discord-rules-section">
+        <h3>10. Система наказаний</h3>
+        <div class="discord-rules-terms">
+          <p><strong>Warn</strong><span class="discord-rule-term-text"> — официальное предупреждение.</span></p>
+          <p><strong>Timeout</strong><span class="discord-rule-term-text"> — временное ограничение возможности общаться.</span></p>
+          <p><strong>Ban</strong><span class="discord-rule-term-text"> — блокировка доступа к Discord-серверу.</span></p>
+          <p><strong>Permanent Ban</strong><span class="discord-rule-term-text"> — бессрочная блокировка.</span></p>
+          <p class="discord-rule-term-text">При повторном нарушении срок наказания может быть увеличен независимо от предыдущего наказания.</p>
+          <p class="discord-rule-term-text">Тяжесть наказания определяется с учётом нарушения, обстоятельств, повторности и наличия доказательств.</p>
+        </div>
+      </section>
+    </div>
+  </dialog>
+
+  <script>
+    const translations = {
+      uk: {
+        documentTitle: 'RivalRP | Правила сервера',
+        searchAria: 'Пошук правил',
+        greenMapAlt: 'Мапа зелених зон RivalRP',
+        greenMapCaption: 'Мапа зелених зон сервера RivalRP',
+        footerRights: 'RivalRP. Усі права захищено.',
+        footerHelp: 'Питання щодо правил — звертайтеся до адміністрації сервера.',
+        contactTelegram: 'Основна група',
+        discordRulesLink: 'Правила Discord',
+        discordRulesTitle: 'Правила Discord-сервера',
+        discordRulesIntro: 'Ці правила стосуються спілкування в Discord, а не ігрового процесу.',
+        discordRulesClose: 'Закрити правила Discord',
+        discordRuleRespectTitle: 'Повага до учасників',
+        discordRuleRespectText: 'Заборонені образи, цькування, погрози та дискримінація.',
+        discordRuleSpamTitle: 'Без спаму',
+        discordRuleSpamText: 'Не флудіть, не зловживайте згадками та не засмічуйте голосові канали.',
+        discordRuleContentTitle: 'Без неприйнятного контенту',
+        discordRuleContentText: 'Не публікуйте NSFW, шокуючі матеріали або неприйнятні аватари й статуси.',
+        discordRuleChannelsTitle: 'Правильні канали',
+        discordRuleChannelsText: 'Дотримуйтеся тематики каналів і використовуйте їх за призначенням.',
+        discordRuleAdsTitle: 'Без реклами',
+        discordRuleAdsText: 'Не рекламуйте сторонні проєкти та не розсилайте запрошення без дозволу адміністрації.',
+        discordRulePrivacyTitle: 'Приватність',
+        discordRulePrivacyText: 'Не поширюйте особисті дані, приватні повідомлення чи записи розмов без згоди.',
+        discordRuleSafetyTitle: 'Без шахрайства',
+        discordRuleSafetyText: 'Не надсилайте фішингові посилання, шкідливі файли та не виманюйте доступ до акаунтів.',
+        discordRuleModerationTitle: 'Рішення модераторів',
+        discordRuleModerationText: 'Виконуйте вимоги модераторів і не обходьте обмеження через інші акаунти.',
+        discordRuleVoiceTitle: 'Голосові канали',
+        discordRuleVoiceText: 'Не заважайте розмовам гучними звуками та не записуйте учасників без їхньої згоди.',
+        themeLight: 'Світла',
+        themeDark: 'Темна',
+        themeSwitchToLight: 'Переключити на світлу тему',
+        themeSwitchToDark: 'Переключити на темну тему',
+        projectDoc: 'Вже 13.5 розділів',
+        projectStatus: 'Активно',
+        projectSummary: 'Обов’язкові для всіх гравців незалежно від досвіду, рангу й ролі.',
+        statSections: 'Розділів',
+        statAvailable: 'Доступно',
+        statEveryone: 'Для всіх',
+        navTitle: 'Навігація',
+        navPunishments: 'Система покарань',
+        navGeneral: 'Загальні',
+        navRp: 'RolePlay',
+        navMeta: 'Meta / IC / OOC',
+        navEscape: 'Відхід від RP',
+        navTransport: 'Транспорт',
+        navChat: 'Спілкування',
+        navCheats: 'Баги / Чити',
+        navAfk: 'AFK / FARM',
+        navAccounts: 'Аккаунти',
+        navEconomy: 'Економіка',
+        navContent: 'Контент',
+        navAdmin: 'Адмін',
+        navRecidiv: 'Рецидив',
+        navZzz: 'ЗЗ',
+        groupGeneralTitle: '1. Загальні правила',
+        groupGeneralDesc: 'Основи поведінки на сервері',
+        groupRpTitle: '2. Role Play',
+        groupRpDesc: 'Логіка персонажа та RP-поведінка',
+        groupMetaTitle: '3. Meta / IC / OOC',
+        groupMetaDesc: 'Взаємодія ігрового світу та реальності',
+        groupEscapeTitle: '4. Відхід від RP',
+        groupEscapeDesc: 'Ухилення від сценарної ситуації',
+        groupTransportTitle: '5. Транспорт',
+        groupTransportDesc: 'Водіння, транспорт і інциденти',
+        groupChatTitle: '6. Спілкування',
+        groupChatDesc: 'Чат, наклеп, реклама та конфлікти',
+        groupCheatsTitle: '7. Баги та чити',
+        groupCheatsDesc: 'Заборонене програмне забезпечення та помилки',
+        groupAfkTitle: '8. AFK / FARM',
+        groupAfkDesc: 'Автофарм, AFK та автоматизація',
+        groupAccountsTitle: '9. Аккаунти',
+        groupAccountsDesc: 'Обхід блокувань та безпека облікового запису',
+        groupEconomyTitle: '10. Ігрова економіка',
+        groupEconomyDesc: 'Валюта, ресурси та торгівля',
+        groupContentTitle: '11. Заборонений контент',
+        groupContentDesc: 'Сексуальний і неприйнятний вміст',
+        groupAdminTitle: '12. Адміністрація',
+        groupAdminDesc: 'Повноваження, порядок та дисципліна',
+        groupRecidivTitle: '13. Рецидив',
+        groupRecidivDesc: 'Повторні порушення та суворість санкцій',
+        groupPunishmentsTitle: 'ПОКАРАННЯ',
+        groupPunishmentsDesc: 'Базова система відповідальності',
+        groupZzzTitle: '13.5. ЗЗ — Зелена зона',
+        groupZzzDesc: 'Безпечна територія для відпочинку та безконфліктної гри',
+        navRules: 'Правила',
+        navContacts: 'Контакти',
+        heroLine1: 'Чесна гра.',
+        heroLine2: 'Повагa.',
+        heroLine3: 'Репутація.',
+        heroSubtitle: 'Правила сервера створені для комфортного і справедливого RolePlay. Вони відповідають за якість атмосфери, взаємодію між гравцями та стабільну гру без хаосу.',
+        rulesTitle: 'Правила сервера',
+        rulesSubtitle: 'Оберіть розділ або скористайтеся пошуком за потрібним пунктом.',
+        searchPlaceholder: 'Пошук правила, бану або штрафу...',
+        filterAll: 'Всі',
+        filterLightCases: 'Легкі випадки',
+        filterBans: 'Бани',
+        filterHeavy: 'Тяжкі',
+        emptyTitle: 'Нічого не знайдено',
+        emptySubtitle: 'Спробуйте змінити запит або фільтр.'
+      },
+      ru: {
+        documentTitle: 'RivalRP | Правила сервера',
+        searchAria: 'Поиск по правилам',
+        greenMapAlt: 'Карта зелёных зон RivalRP',
+        greenMapCaption: 'Карта зелёных зон сервера RivalRP',
+        footerRights: 'RivalRP. Все права защищены.',
+        footerHelp: 'По вопросам правил обращайтесь к администрации сервера.',
+        contactTelegram: 'Основная группа',
+        discordRulesLink: 'Правила Discord',
+        discordRulesTitle: 'Правила Discord-сервера',
+        discordRulesIntro: 'Эти правила относятся к общению в Discord, а не к игровому процессу.',
+        discordRulesClose: 'Закрыть правила Discord',
+        discordRuleRespectTitle: 'Уважение к участникам',
+        discordRuleRespectText: 'Запрещены оскорбления, травля, угрозы и дискриминация.',
+        discordRuleSpamTitle: 'Без спама',
+        discordRuleSpamText: 'Не флудите, не злоупотребляйте упоминаниями и не засоряйте голосовые каналы.',
+        discordRuleContentTitle: 'Без неприемлемого контента',
+        discordRuleContentText: 'Не публикуйте NSFW, шокирующие материалы или неприемлемые аватары и статусы.',
+        discordRuleChannelsTitle: 'Подходящие каналы',
+        discordRuleChannelsText: 'Соблюдайте тематику каналов и используйте их по назначению.',
+        discordRuleAdsTitle: 'Без рекламы',
+        discordRuleAdsText: 'Не рекламируйте сторонние проекты и не рассылайте приглашения без разрешения администрации.',
+        discordRulePrivacyTitle: 'Конфиденциальность',
+        discordRulePrivacyText: 'Не распространяйте личные данные, личные сообщения или записи разговоров без согласия.',
+        discordRuleSafetyTitle: 'Без мошенничества',
+        discordRuleSafetyText: 'Не отправляйте фишинговые ссылки и вредоносные файлы, не выманивайте доступ к аккаунтам.',
+        discordRuleModerationTitle: 'Решения модераторов',
+        discordRuleModerationText: 'Выполняйте требования модераторов и не обходите ограничения через другие аккаунты.',
+        discordRuleVoiceTitle: 'Голосовые каналы',
+        discordRuleVoiceText: 'Не мешайте разговорам громкими звуками и не записывайте участников без их согласия.',
+        themeLight: 'Светлая',
+        themeDark: 'Тёмная',
+        themeSwitchToLight: 'Переключить на светлую тему',
+        themeSwitchToDark: 'Переключить на тёмную тему',
+        projectDoc: 'Уже 13.5 разделов',
+        projectStatus: 'Активно',
+        projectSummary: 'Обязательны для всех игроков независимо от опыта, ранга и роли.',
+        statSections: 'Разделов',
+        statAvailable: 'Доступно',
+        statEveryone: 'Для всех',
+        navTitle: 'Навигация',
+        navPunishments: 'Система наказаний',
+        navGeneral: 'Общие',
+        navRp: 'RolePlay',
+        navMeta: 'Meta / IC / OOC',
+        navEscape: 'Уход от RP',
+        navTransport: 'Транспорт',
+        navChat: 'Общение',
+        navCheats: 'Баги / Читы',
+        navAfk: 'AFK / FARM',
+        navAccounts: 'Аккаунты',
+        navEconomy: 'Экономика',
+        navContent: 'Контент',
+        navAdmin: 'Админ',
+        navRecidiv: 'Рецидив',
+        navZzz: 'ЗЗ',
+        groupGeneralTitle: '1. Общие правила',
+        groupGeneralDesc: 'Основы поведения на сервере',
+        groupRpTitle: '2. Role Play',
+        groupRpDesc: 'Логика персонажа и RP-поведение',
+        groupMetaTitle: '3. Meta / IC / OOC',
+        groupMetaDesc: 'Взаимодействие игрового мира и реальности',
+        groupEscapeTitle: '4. Уход от RP',
+        groupEscapeDesc: 'Уклонение от сценарной ситуации',
+        groupTransportTitle: '5. Транспорт',
+        groupTransportDesc: 'Вождение, транспорт и инциденты',
+        groupChatTitle: '6. Общение',
+        groupChatDesc: 'Чат, клевета, реклама и конфликты',
+        groupCheatsTitle: '7. Баги и читы',
+        groupCheatsDesc: 'Запрещённое программное обеспечение и ошибки',
+        groupAfkTitle: '8. AFK / FARM',
+        groupAfkDesc: 'Автофарм, AFK и автоматизация',
+        groupAccountsTitle: '9. Аккаунты',
+        groupAccountsDesc: 'Обход блокировок и безопасность учётной записи',
+        groupEconomyTitle: '10. Игровая экономика',
+        groupEconomyDesc: 'Валюта, ресурсы и торговля',
+        groupContentTitle: '11. Запрещённый контент',
+        groupContentDesc: 'Сексуальный и неприемлемый контент',
+        groupAdminTitle: '12. Администрация',
+        groupAdminDesc: 'Полномочия, порядок и дисциплина',
+        groupRecidivTitle: '13. Рецидив',
+        groupRecidivDesc: 'Повторные нарушения и строгость санкций',
+        groupPunishmentsTitle: 'НАКАЗАНИЯ',
+        groupPunishmentsDesc: 'Базовая система ответственности',
+        groupZzzTitle: '13.5. ЗЗ — Зелёная зона',
+        groupZzzDesc: 'Безопасная территория для отдыха и бесконфликтной игры',
+        navRules: 'Правила',
+        navContacts: 'Контакты',
+        heroLine1: 'Честная игра.',
+        heroLine2: 'Уважение.',
+        heroLine3: 'Репутация.',
+        heroSubtitle: 'Правила сервера созданы для комфортной и справедливой RolePlay. Они обеспечивают качественную атмосферу, взаимодействие между игроками и стабильную игру без хаоса.',
+        rulesTitle: 'Правила сервера',
+        rulesSubtitle: 'Выберите раздел или воспользуйтесь поиском по нужному пункту.',
+        searchPlaceholder: 'Поиск правила, бана или штрафа...',
+        filterAll: 'Все',
+        filterLightCases: 'Лёгкие случаи',
+        filterBans: 'Баны',
+        filterHeavy: 'Тяжёлые',
+        emptyTitle: 'Ничего не найдено',
+        emptySubtitle: 'Попробуйте изменить запрос или фильтр.'
+      }
+    };
+
+    const ruleTranslations = {
+      '1.1': 'Незнание правил проекта не освобождает от ответственности.',
+      '1.2': 'Запрещено намеренно мешать игровому процессу других игроков.',
+      '1.3': 'Запрещено выдавать себя за администрацию или представителей проекта.',
+      '1.4': 'Запрещено препятствовать работе администрации.',
+      '1.5': 'Запрещено использовать уязвимости правил или игровых систем для получения преимущества.',
+      '2.1': 'DM — убийство или нападение без RP-причины.',
+      '2.2': 'RDM — случайное убийство игрока без причины.',
+      '2.3': 'VDM — намеренное убийство игрока транспортом.',
+      '2.4': 'DB — стрельба из транспорта с нарушением RP.',
+      '2.5': 'RK — возвращение после смерти с целью мести.',
+      '2.6': 'TK — убийство союзника или участника своей организации без RP-причины.',
+      '2.7': 'SK — убийство игрока в месте его появления.',
+      '2.8': 'PG — совершение нереалистичных действий или игнорирование очевидной опасности.',
+      '2.9': 'Fear RP — отсутствие страха за жизнь персонажа в опасной ситуации.',
+      '2.10': 'Force RP — навязывание другому игроку результата RP-ситуации.',
+      '2.11': 'NonRP — действия, нарушающие логику RP.',
+      '2.12': 'NRD — нереалистичное управление транспортом.',
+      '2.13': 'BH — использование Bunny Hop для получения преимущества.',
+      '2.14': 'No Pain / НР — отсутствие реакции на серьёзные травмы.',
+      '3.1': 'MG — использование в IC информации, полученной вне игры.',
+      '3.2': 'Mixing — смешивание IC и OOC.',
+      '3.3': 'Запрещено использовать информацию из Discord, стримов или сторонних чатов, которую персонаж не мог получить в IC.',
+      '3.4': 'Запрещено использовать OOC-конфликты как причину для IC-действий.',
+      '4.1': 'Combat Log — выход из игры во время активной RP-ситуации, чтобы избежать последствий.',
+      '4.2': 'RP Escape — намеренное уклонение от RP-ситуации запрещённым способом.',
+      '4.3': 'Запрещено использовать игровые механики для намеренного уклонения от RP.',
+      '4.4': 'Cop Baiting — намеренная провокация сотрудников полиции без RP-причины.',
+      '5.1': 'Car Ramming — намеренный таран игрока или транспорта без RP-причины.',
+      '5.2': 'Запрещено использовать транспорт как оружие без соответствующей RP-ситуации.',
+      '5.3': 'Запрещена нереалистичная езда, нарушающая RP.',
+      '5.4': 'Запрещено намеренно блокировать дороги, входы и важные игровые зоны.',
+      '6.1': 'Запрещено оскорблять игроков.',
+      '6.2': 'Запрещено оскорблять администрацию.',
+      '6.3': 'Запрещены угрозы реальной расправой.',
+      '6.4': 'Запрещено публиковать чужие персональные данные.',
+      '6.5': 'Запрещены спам и флуд, мешающие работе чата.',
+      '6.6': 'Запрещена реклама сторонних проектов без разрешения администрации.',
+      '6.7': 'Запрещено намеренно провоцировать конфликты между игроками.',
+      '7.1': 'Bug Abuse — использование багов для получения преимущества.',
+      '7.2': 'Массовое или намеренное использование критического бага.',
+      '7.3': 'Использование читов или запрещённого программного обеспечения.',
+      '7.4': 'Повторное использование читов после предыдущего наказания.',
+      '7.5': 'Распространение читов или запрещённого программного обеспечения.',
+      '7.6': 'Обход античита или систем защиты проекта.',
+      '8.1': 'AFK-Farm — автоматическое получение ресурсов без активного участия игрока.',
+      '8.2': 'Использование сторонних программ для автоматического фарма.',
+      '8.3': 'Использование макросов или автоматизации для получения преимущества.',
+      '9.1': 'Bypass Ban — обход блокировки через другой аккаунт.',
+      '9.2': 'Повторный обход блокировки.',
+      '9.3': 'Использование чужого аккаунта для обхода наказания.',
+      '9.4': 'Кража или взлом чужого аккаунта.',
+      '10.1': 'Использование багов для получения игровой валюты или имущества.',
+      '10.2': 'Мошенничество с игровыми ресурсами.',
+      '10.3': 'Массовое мошенничество.',
+      '10.4': 'Продажа или покупка игровых ценностей за реальные деньги вне разрешённых проектом способов.',
+      '11.1': 'ERP — сексуализированный RP.',
+      '11.2': 'ERP с несовершеннолетними персонажами.',
+      '11.3': 'Распространение сексуального или другого запрещённого контента.',
+      '12.1': 'Использование административных полномочий в личных целях.',
+      '12.2': 'Сокрытие нарушений друзей или знакомых.',
+      '12.3': 'Выдача наказания из личной неприязни.',
+      '12.4': 'Разглашение служебной информации.',
+      '12.5': 'Передача административного аккаунта другому человеку.',
+      '12.6': 'Злоупотребление административными полномочиями.',
+      '13.1': 'При повторном нарушении срок наказания может быть увеличен с учётом истории игрока.',
+      '13.2': 'Систематические нарушения правил могут привести к увеличению срока вплоть до постоянной блокировки.',
+      '13.3': 'Массовое или особо тяжкое нарушение может повлечь более строгое наказание, чем предусмотрено стандартным сроком.',
+      '13.4': 'Перед выдачей блокировки администратор обязан учитывать доказательства, тяжесть нарушения и историю наказаний игрока.',
+      'P1': 'Важно: указанные наказания являются базовыми. При повторном или особо тяжком нарушении срок может быть увеличен.',
+      'P2': 'Минимальный срок блокировки — 1 день.',
+      'P3': 'Все наказания должны выдаваться только при наличии достаточных доказательств.',
+      'P4': 'Администратор не вправе выдавать наказание исключительно на основании личного мнения или неприязни.',
+      '13.5.1': 'В ЗЗ запрещено доставать и использовать оружие.',
+      '13.5.2': 'В ЗЗ запрещено причинять вред игрокам и использовать тазер.',
+      '13.5.3': 'В ЗЗ запрещено доставать или использовать нелегальные предметы.',
+      '13.5.4': 'В ЗЗ запрещено находиться в маске.',
+      '13.5.5': 'В ЗЗ запрещено начинать драки и конфликты.',
+      '13.5.6': 'В ЗЗ запрещено совершать ограбления, похищения и другие преступления.'
+    };
+
+    const russianPenaltyText = {
+      'Залежить від тяжкості та історії': 'Зависит от тяжести нарушения и истории игрока',
+      'Permanent Ban / збільшений термін': 'Постоянная блокировка / увеличенный срок',
+      'Залежить від ситуації': 'Зависит от ситуации',
+      'Адміністративна оцінка': 'Решение администрации',
+      'Залежить від повтору та серйозності порушення': 'Зависит от повторности и серьёзности нарушения',
+      'Адміністративна перевірка': 'Проверка администрацией',
+      'Скасування / перевірка': 'Отмена наказания / проверка',
+      'Попередження, штраф або бан': 'Предупреждение, штраф или блокировка'
+    };
+
+    const search = document.getElementById('search');
+    const groups = [...document.querySelectorAll('.rule-group')];
+    const empty = document.getElementById('empty');
+    const sideLinks = document.querySelectorAll('.side-link');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const ruleElements = document.querySelectorAll('.rule');
+    const hoverTargets = document.querySelectorAll('.rule, .side-link');
+    const year = document.getElementById('year');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle?.querySelector('.theme-toggle__icon');
+    const themeLabel = themeToggle?.querySelector('.theme-toggle__label');
+    const langSwitch = document.querySelector('.lang-switch');
+    const entryScreen = document.getElementById('entryScreen');
+    const contactsMenu = document.querySelector('.contacts-menu');
+    const discordRulesDialog = document.getElementById('discordRulesDialog');
+
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const entryLanguageButtons = document.querySelectorAll('[data-entry-lang]');
+
+    const discordRuleUkTranslations = {
+      sections: [
+        '1. Загальні правила',
+        '2. Спілкування',
+        '3. Контент',
+        '4. Реклама',
+        '5. Голосові канали',
+        '6. Особисті дані та безпека',
+        '7. Використання Discord',
+        '8. Обхід покарань',
+        '9. Адміністрація',
+        '10. Система покарань'
+      ],
+      rules: [
+        '1.1. Незнання правил не звільняє від відповідальності.',
+        '1.2. Заборонено навмисно обходити покарання через інший акаунт.',
+        '1.3. Заборонено видавати себе за адміністрацію, розробників або представників проєкту.',
+        '1.4. Заборонено навмисно заважати роботі адміністрації та модерації.',
+        '2.1. Заборонені образи, приниження та перехід на особистості.',
+        '2.2. Заборонені образи адміністрації під час виконання обов’язків.',
+        '2.3. Заборонені погрози реальною розправою або заподіянням шкоди.',
+        '2.4. Заборонені цькування, цілеспрямовані провокації та переслідування учасників.',
+        '2.5. Заборонені спам і флуд повідомленнями, реакціями, згадками та командами.',
+        '2.6. Заборонено зловживати @everyone, @here та масовими згадками.',
+        '3.1. Заборонений NSFW-контент і матеріали сексуального характеру.',
+        '3.2. Заборонені шок-контент, жорстокі матеріали та навмисна публікація неприйнятного контенту.',
+        '3.3. Заборонені матеріали із погрозами, закликами до насильства або небезпечних дій.',
+        '3.4. Заборонено поширювати шкідливі файли, віруси, стилери та інше шкідливе ПЗ.',
+        '4.1. Заборонена реклама сторонніх проєктів, серверів, Discord-серверів і послуг без дозволу адміністрації.',
+        '4.2. Заборонена масова розсилка реклами учасникам сервера через особисті повідомлення.',
+        '4.3. Заборонено запрошувати учасників проєкту до сторонніх проєктів з метою переманювання.',
+        '5.1. Заборонені гучні звуки, музика та навмисний спам мікрофоном.',
+        '5.2. Заборонено вмикати звуки, що заважають, і використовувати SoundPad для перешкоджання спілкуванню.',
+        '5.3. Заборонено навмисно заважати проведенню співбесід, заходів та інших подій проєкту.',
+        '6.1. Заборонено поширювати особисті дані учасників без їхньої згоди.',
+        '6.2. Заборонено публікувати номери телефонів, адреси, документи, фотографії та інші персональні дані.',
+        '6.3. Заборонені спроби зламу акаунтів, фішинг і викрадення акаунтів.',
+        '7.1. Заборонено використовувати баги Discord або сервера для отримання переваги.',
+        '7.2. Заборонено використовувати сторонні програми для завдання шкоди серверу.',
+        '7.3. Заборонено навмисно влаштовувати рейд сервера або організовувати масові атаки.',
+        '8.1. Заборонено обходити Timeout, Ban або інші обмеження через альтернативний акаунт.',
+        '8.2. Повторний обхід покарання після попередження може призвести до постійного блокування.',
+        '9.1. Рішення адміністрації потрібно виконувати, якщо вони не суперечать правилам проєкту.',
+        '9.2. Заборонено провокувати адміністрацію з метою отримання покарання або конфлікту.',
+        '9.3. Заборонено видавати себе за адміністратора або використовувати чужі адміністративні повноваження.',
+        '9.4. Адміністрація має право застосувати суворіше покарання за масове, систематичне або особливо тяжке порушення.'
+      ],
+      terms: [
+        ' — офіційне попередження.',
+        ' — тимчасове обмеження можливості спілкуватися.',
+        ' — блокування доступу до Discord-сервера.',
+        ' — безстрокове блокування.',
+        'У разі повторного порушення строк покарання може бути збільшений незалежно від попереднього покарання.',
+        'Тяжкість покарання визначається з урахуванням порушення, обставин, повторності та наявності доказів.'
+      ]
+    };
+
+    function applyDiscordRulesLanguage(lang) {
+      const isUkrainian = lang === 'uk';
+      const sectionHeadings = discordRulesDialog?.querySelectorAll('.discord-rules-section > h3') || [];
+      const ruleHeadings = discordRulesDialog?.querySelectorAll('.discord-rules-list > li > strong') || [];
+      const termDescriptions = discordRulesDialog?.querySelectorAll('.discord-rule-term-text') || [];
+      sectionHeadings.forEach((element, index) => {
+        if (!element.dataset.discordRu) element.dataset.discordRu = element.textContent;
+        element.textContent = isUkrainian ? discordRuleUkTranslations.sections[index] : element.dataset.discordRu;
+      });
+      ruleHeadings.forEach((element, index) => {
+        if (!element.dataset.discordRu) element.dataset.discordRu = element.textContent;
+        element.textContent = isUkrainian ? discordRuleUkTranslations.rules[index] : element.dataset.discordRu;
+      });
+      termDescriptions.forEach((element, index) => {
+        if (!element.dataset.discordRu) element.dataset.discordRu = element.textContent;
+        element.textContent = isUkrainian ? discordRuleUkTranslations.terms[index] : element.dataset.discordRu;
+      });
+      discordRulesDialog?.querySelectorAll('.discord-rule-penalty > strong').forEach(label => {
+        if (!label.dataset.discordRu) label.dataset.discordRu = label.textContent;
+        label.textContent = isUkrainian ? (label.dataset.discordUk || 'Покарання:') : label.dataset.discordRu;
+      });
+    }
+
+    function closeContactsMenu() {
+      if (contactsMenu?.open) contactsMenu.open = false;
+    }
+
+    document.addEventListener('click', event => {
+      if (contactsMenu?.open && !contactsMenu.contains(event.target)) closeContactsMenu();
+    });
+    contactsMenu?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeContactsMenu);
+    });
+    document.querySelector('[data-discord-rules-open]')?.addEventListener('click', () => {
+      closeContactsMenu();
+      discordRulesDialog?.showModal();
+    });
+    discordRulesDialog?.querySelector('[data-discord-rules-close]')?.addEventListener('click', () => {
+      discordRulesDialog.close();
+    });
+    discordRulesDialog?.addEventListener('click', event => {
+      if (event.target === discordRulesDialog) discordRulesDialog.close();
+    });
+    window.addEventListener('scroll', closeContactsMenu, { passive: true });
+    document.addEventListener('scroll', closeContactsMenu, { capture: true, passive: true });
+
+    hoverTargets.forEach(target => {
+      target.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse') return;
+        const bounds = target.getBoundingClientRect();
+        target.style.setProperty('--cursor-x', `${event.clientX - bounds.left}px`);
+        target.style.setProperty('--cursor-y', `${event.clientY - bounds.top}px`);
+      });
+    });
+
+    function applyLanguage(lang) {
+      const t = translations[lang] || translations.uk;
+      document.documentElement.lang = lang;
+      document.title = t.documentTitle;
+      if (langSwitch) langSwitch.dataset.lang = lang;
+      if (entryScreen) entryScreen.dataset.hoverLang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key]) el.textContent = t[key];
+      });
+      applyDiscordRulesLanguage(lang);
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        if (t[key]) el.placeholder = t[key];
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.dataset.i18nAria;
+        if (t[key]) el.setAttribute('aria-label', t[key]);
+      });
+      document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        const key = el.dataset.i18nTitle;
+        if (t[key]) el.title = t[key];
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const key = el.dataset.i18nAlt;
+        if (t[key]) el.alt = t[key];
+      });
+      if (themeLabel) themeLabel.textContent = document.body.dataset.theme === 'dark' ? t.themeDark : t.themeLight;
+      if (themeToggle) themeToggle.setAttribute('aria-label', document.body.dataset.theme === 'dark' ? t.themeSwitchToLight : t.themeSwitchToDark);
+      ruleElements.forEach(rule => {
+        const number = rule.querySelector(':scope > .num')?.textContent.trim();
+        const title = rule.querySelector('.rule-title-inline');
+        const punishmentLabel = rule.querySelector('.punishment-tag');
+        const punishment = rule.querySelector('.rule-meta > span:last-child');
+        if (!title || !punishment) return;
+        if (!rule.dataset.ukTitle) rule.dataset.ukTitle = title.textContent;
+        if (!rule.dataset.ukPunishment) rule.dataset.ukPunishment = punishment.textContent;
+        title.textContent = lang === 'ru' ? (ruleTranslations[number] || rule.dataset.ukTitle) : rule.dataset.ukTitle;
+        if (punishmentLabel) punishmentLabel.textContent = lang === 'ru' ? 'НАКАЗАНИЕ:' : 'ПОКАРАННЯ:';
+        punishment.textContent = lang === 'ru'
+          ? (russianPenaltyText[rule.dataset.ukPunishment] || rule.dataset.ukPunishment.replace(/Permanent Ban/gi, 'Постоянная блокировка').replace(/\bBan\b/gi, 'Бан').replace(/днів/g, 'дней').replace(/зняття з посади/g, 'снятие с должности'))
+          : rule.dataset.ukPunishment;
+        const isBan = /\bban\b|(?:^|[^а-яё])бан(?:$|[^а-яё])|постійний бан|постоянная блокировка/i.test(punishment.textContent);
+        punishment.classList.toggle('penalty-ban', isBan);
+        punishment.classList.toggle('penalty-other', !isBan);
+        punishmentLabel?.classList.toggle('penalty-ban', isBan);
+        punishmentLabel?.classList.toggle('penalty-other', !isBan);
+      });
+      const emptyTitle = document.querySelector('.empty-title');
+      const emptySubtitle = document.querySelector('.empty-subtitle');
+      if (emptyTitle) emptyTitle.textContent = t.emptyTitle;
+      if (emptySubtitle) emptySubtitle.textContent = t.emptySubtitle;
+      langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+      langButtons.forEach(btn => {
+        btn.style.opacity = btn.dataset.lang === lang ? '1' : '0.9';
+      });
+      localStorage.setItem('rivalrp-lang', lang);
+    }
+
+    year.textContent = new Date().getFullYear();
+
+    function applyTheme(theme) {
+      const isDark = theme === 'dark';
+      document.body.dataset.theme = theme;
+      if (themeIcon) themeIcon.textContent = isDark ? '☾' : '☀';
+      const t = translations[document.documentElement.lang] || translations.uk;
+      if (themeLabel) themeLabel.textContent = isDark ? t.themeDark : t.themeLight;
+      if (themeToggle) {
+        themeToggle.setAttribute('aria-label', isDark ? t.themeSwitchToLight : t.themeSwitchToDark);
+      }
+      localStorage.setItem('rivalrp-theme', theme);
+    }
+
+    const savedTheme = localStorage.getItem('rivalrp-theme') || 'light';
+    const savedLang = localStorage.getItem('rivalrp-lang') || 'uk';
+    applyTheme(savedTheme);
+    applyLanguage(savedLang);
+    document.body.classList.add('entry-open');
+
+    entryLanguageButtons.forEach(button => {
+      const previewLanguage = () => applyLanguage(button.dataset.entryLang);
+      button.addEventListener('pointerenter', previewLanguage);
+      button.addEventListener('focus', previewLanguage);
+      button.addEventListener('click', () => {
+        previewLanguage();
+        document.body.classList.remove('entry-open');
+        entryScreen?.classList.add('is-leaving');
+        window.setTimeout(() => {
+          if (entryScreen) entryScreen.hidden = true;
+        }, 700);
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+      });
+    });
+
+    themeToggle?.addEventListener('click', () => {
+      const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
+
+    langButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        applyLanguage(button.dataset.lang);
+      });
+    });
+
+    function getRulePenaltyMeta(text) {
+      const lower = text.toLowerCase();
+      const hasBan = /\bban\b|(?:^|[^а-яё])бан(?:$|[^а-яё])|постоянн[а-яё]*\s+блокировк[а-яё]*/i.test(lower);
+      const hasFine = /штраф|\bfine\b|грн|₴|\$|currency/i.test(lower);
+      const dayMatches = [...text.matchAll(/(\d+)\s*(?:дн|дн[ія]|день|days?|day)/gi)].map(match => Number(match[1]));
+      const amountMatches = [...text.matchAll(/(\d{4,})/g)].map(match => Number(match[1]));
+      const hasHeavyBan = hasBan && (dayMatches.some(value => value > 3) || /permanent ban|постійний бан|постоянн[а-яё]*\s+блокировк[а-яё]*|perm/i.test(lower));
+      const hasHeavyFine = hasFine && amountMatches.some(value => value > 6000);
+
+      return {
+        hasBan,
+        hasFine,
+        hasHeavyBan,
+        hasHeavyFine
+      };
+    }
+
+    function ruleMatchesFilter(rule, activeFilter) {
+      if (activeFilter === 'all') {
+        return true;
+      }
+
+      const penalty = getRulePenaltyMeta(rule.querySelector('.rule-meta')?.textContent || '');
+
+      if (activeFilter === 'light-cases') {
+        return rule.querySelector('.rule-meta > span:last-child')?.classList.contains('penalty-other') || false;
+      }
+
+      if (activeFilter === 'fines') {
+        return penalty.hasFine && !penalty.hasBan;
+      }
+
+      if (activeFilter === 'bans') {
+        return penalty.hasBan && !penalty.hasHeavyBan && !penalty.hasHeavyFine;
+      }
+
+      if (activeFilter === 'heavy-bans') {
+        return penalty.hasHeavyBan || penalty.hasHeavyFine;
+      }
+
+      return true;
+    }
+
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      const activeFilter = document.querySelector('.filter-tab.active')?.dataset.filter || 'all';
+      let visible = 0;
+
+      groups.forEach(group => {
+        let count = 0;
+
+        group.querySelectorAll('.rule').forEach(rule => {
+          const searchText = [
+            rule.querySelector(':scope > .num')?.textContent,
+            rule.querySelector('.rule-title-inline')?.textContent,
+            rule.querySelector('.rule-meta')?.textContent
+          ].join(' ').toLowerCase();
+          const matchesSearch = searchText.includes(query);
+          const showRule = matchesSearch && ruleMatchesFilter(rule, activeFilter);
+          rule.style.display = showRule ? 'grid' : 'none';
+          if (showRule) count++;
+        });
+
+        group.style.display = count ? 'block' : 'none';
+        if (count) visible++;
+      });
+
+      empty.style.display = visible ? 'none' : 'flex';
+    }
+
+    search.addEventListener('input', applyFilters);
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(item => item.classList.toggle('active', item === tab));
+        applyFilters();
+      });
+    });
+
+    sideLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        sideLinks.forEach(item => item.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
