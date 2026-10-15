@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
@@ -54,6 +54,13 @@
       display: none;
       width: 0;
       height: 0;
+    }
+
+    .icon-sprite {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
     }
 
     html {
@@ -185,6 +192,11 @@
       transform: translateX(calc(100% + 8px));
     }
 
+    .rule-translation,
+    .rule-header .tag:nth-child(2) {
+      display: none;
+    }
+
     .entry-language {
       position: relative;
       z-index: 1;
@@ -244,11 +256,12 @@
     }
 
     .nav {
-      height: 78px;
+      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      padding: 8px 0;
     }
 
     .brand {
@@ -379,10 +392,10 @@
       gap: 8px;
       min-height: 42px;
       padding: 0 12px;
-      border: 1px solid transparent;
+      border: 1px solid rgba(88, 101, 242, 0.2);
       border-radius: 12px;
-      background: transparent;
-      color: var(--muted);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.12), rgba(88, 101, 242, 0.06));
+      color: #5865f2;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -393,14 +406,24 @@
 
     .navlinks .discord-rules-trigger:hover,
     .navlinks .discord-rules-trigger:focus-visible {
-      background: rgba(121, 98, 216, 0.06);
-      border-color: rgba(121, 98, 216, 0.14);
-      color: var(--text);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.2), rgba(88, 101, 242, 0.12));
+      border-color: rgba(88, 101, 242, 0.38);
+      color: #4655e8;
+      box-shadow: 0 8px 18px rgba(88, 101, 242, 0.14);
+      transform: translateY(-1px);
       outline: none;
     }
 
     body[data-theme="dark"] .navlinks .discord-rules-trigger {
-      color: var(--muted);
+      border-color: rgba(139, 150, 255, 0.28);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.2), rgba(88, 101, 242, 0.1));
+      color: #b7beff;
+    }
+
+    body[data-theme="dark"] .navlinks .discord-rules-trigger:hover,
+    body[data-theme="dark"] .navlinks .discord-rules-trigger:focus-visible {
+      color: #d9ddff;
+      border-color: rgba(155, 164, 255, 0.48);
     }
 
     .discord-rules-trigger svg {
@@ -517,7 +540,7 @@
     }
 
     .discord-rules-dialog {
-      width: min(600px, calc(100% - 32px));
+      width: min(700px, calc(100% - 32px));
       max-height: min(82vh, 740px);
       margin: auto;
       padding: 0;
@@ -567,16 +590,26 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 20px;
-      padding: 24px 26px 18px;
+      padding: 26px 28px 20px;
       border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.09), transparent 72%);
     }
 
     .discord-rules-dialog__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       color: var(--accent-strong);
       font-size: 0.66rem;
       font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+
+    .discord-rules-dialog__eyebrow svg {
+      width: 16px;
+      height: 16px;
+      color: #5865f2;
     }
 
     .discord-rules-dialog h2 {
@@ -622,7 +655,7 @@
     .discord-rules-dialog__body {
       max-height: calc(82vh - 136px);
       overflow-y: auto;
-      padding: 8px 26px 24px;
+      padding: 8px 28px 26px;
     }
 
     .discord-rules-section + .discord-rules-section {
@@ -631,8 +664,10 @@
     }
 
     .discord-rules-section h3 {
-      margin: 18px 0 4px;
-      color: var(--accent-strong);
+      margin: 18px 0 8px;
+      padding-left: 11px;
+      border-left: 3px solid #5865f2;
+      color: var(--text);
       font-size: 0.95rem;
     }
 
@@ -643,7 +678,7 @@
     }
 
     .discord-rules-list li {
-      padding: 12px 0;
+      padding: 13px 0;
       border-bottom: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.86rem;
@@ -657,10 +692,18 @@
     }
 
     .discord-rule-penalty {
-      display: block;
-      margin-top: 4px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      max-width: 100%;
+      margin-top: 7px;
+      padding: 4px 9px;
+      border: 1px solid rgba(88, 101, 242, 0.12);
+      border-radius: 7px;
+      background: rgba(88, 101, 242, 0.06);
       color: var(--muted);
       font-size: 0.78rem;
+      line-height: 1.5;
     }
 
     .discord-rule-penalty strong {
@@ -678,6 +721,16 @@
 
     .discord-rules-terms strong {
       color: var(--text);
+    }
+
+    @media (max-width: 640px) {
+      .discord-rules-dialog__header {
+        padding: 20px 18px 16px;
+      }
+
+      .discord-rules-dialog__body {
+        padding: 6px 18px 20px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -730,7 +783,23 @@
       place-items: center;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent-soft), rgba(255,255,255,0.12));
-      font-size: 0.85rem;
+    }
+
+    .theme-toggle__icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .theme-toggle__icon .icon-moon {
+      display: none;
+    }
+
+    body[data-theme="dark"] .theme-toggle__icon .icon-sun {
+      display: none;
+    }
+
+    body[data-theme="dark"] .theme-toggle__icon .icon-moon {
+      display: block;
     }
 
     .theme-toggle__label {
@@ -1141,6 +1210,20 @@
       transition: color 0.25s ease;
     }
 
+    .side-link-icon {
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      color: var(--muted-soft);
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .side-link-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
     .side-link.active,
     .side-link:hover {
       background:
@@ -1162,12 +1245,22 @@
       color: var(--accent-strong);
     }
 
+    .side-link.active .side-link-icon,
+    .side-link:hover .side-link-icon {
+      color: var(--accent-strong);
+      transform: scale(1.08);
+    }
+
     .side-link.punishment {
       background: linear-gradient(135deg, var(--accent), var(--accent-strong));
       border-color: transparent;
       color: #ffffff;
       box-shadow: 0 12px 24px rgba(105, 87, 222, 0.22);
       font-weight: 800;
+    }
+
+    .side-link.punishment .side-link-icon {
+      color: #ffffff;
     }
 
     .rules {
@@ -1214,8 +1307,17 @@
       background: linear-gradient(135deg, rgba(139, 116, 255, 0.12), rgba(105, 87, 222, 0.06));
       border: 1px solid rgba(121, 98, 216, 0.14);
       color: var(--accent-strong);
-      font-size: 1.15rem;
       flex-shrink: 0;
+    }
+
+    .rule-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .empty-icon svg {
+      width: 30px;
+      height: 30px;
     }
 
     .rule-title h3 {
@@ -1236,6 +1338,21 @@
     .rule-list {
       padding: 8px 20px 10px;
       background: rgba(246,242,255,0.5);
+    }
+
+    .rule-section {
+      display: grid;
+      gap: 0;
+    }
+
+    .rule-section-title {
+      margin: 14px 0 0;
+      padding: 12px 0 4px;
+      border-top: 1px solid var(--line);
+      color: var(--accent-strong);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     body[data-theme="dark"] .rule-list {
@@ -1319,6 +1436,25 @@
       row-gap: 6px;
     }
 
+    .green-zones-map {
+      margin: 8px 0 16px;
+    }
+
+    .green-zones-map img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .green-zones-map figcaption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
     .rule-title-inline {
       color: var(--accent-strong);
       font-weight: 800;
@@ -1353,12 +1489,21 @@
       font-weight: 800;
     }
 
+    .rule-meta > span:last-child.penalty-jail {
+      color: #687386;
+      font-weight: 800;
+    }
+
     body[data-theme="dark"] .rule-meta > span:last-child.penalty-ban {
       color: #ff6879;
     }
 
     body[data-theme="dark"] .rule-meta > span:last-child.penalty-other {
       color: #ffb454;
+    }
+
+    body[data-theme="dark"] .rule-meta > span:last-child.penalty-jail {
+      color: #aeb8c8;
     }
 
     .rule strong {
@@ -1405,12 +1550,21 @@
       box-shadow: 0 8px 18px rgba(177, 32, 56, 0.28);
     }
 
+    .punishment-tag.penalty-jail {
+      background: linear-gradient(135deg, #727d91, #596477);
+      box-shadow: 0 8px 18px rgba(75, 85, 99, 0.22);
+    }
+
     body[data-theme="dark"] .punishment-tag {
       box-shadow: 0 10px 22px rgba(217, 130, 32, 0.3);
     }
 
     body[data-theme="dark"] .punishment-tag.penalty-ban {
       box-shadow: 0 10px 22px rgba(255, 104, 121, 0.36);
+    }
+
+    body[data-theme="dark"] .punishment-tag.penalty-jail {
+      box-shadow: 0 10px 22px rgba(148, 163, 184, 0.24);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1493,36 +1647,119 @@
         position: static;
         display: flex;
         overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
         gap: 8px;
         padding: 10px;
+        scrollbar-color: var(--accent) transparent;
+        scrollbar-width: thin;
+      }
+      .sidebar::-webkit-scrollbar {
+        display: block;
+        width: auto;
+        height: 5px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: var(--accent);
       }
       .side-title { display: none; }
-      .side-link { white-space: nowrap; }
+      .side-link { flex: 0 0 auto; white-space: nowrap; scroll-snap-align: start; }
+    }
+
+    @media (min-width: 641px) and (max-width: 900px) {
+      .nav {
+        min-height: 78px;
+        flex-wrap: wrap;
+      }
+      .navlinks {
+        flex: 1 0 100%;
+        justify-content: flex-start;
+      }
     }
 
     @media (max-width: 640px) {
-      .nav { height: 72px; }
-      .navlinks a:not(.primary) { display: none; }
+      .nav {
+        min-height: 72px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .brand { width: fit-content; align-self: flex-start; }
+      .navlinks {
+        justify-content: flex-start;
+        gap: 4px;
+      }
+      .navlinks a:not(.primary) {
+        display: inline-flex;
+        padding: 0 10px;
+      }
       .navlinks .contacts-menu__panel a { display: flex; }
       .navlinks .discord-rules-trigger {
-        width: 42px;
-        padding: 0;
+        padding: 0 10px;
       }
-      .discord-rules-trigger__label { display: none; }
-      .section-head { align-items: flex-start; }
-      .search-wrap { width: 100%; }
-      .mini-stats { grid-template-columns: 1fr; }
-      .rule-title { padding: 16px 18px; }
-      .rule-list { padding-left: 18px; padding-right: 18px; }
+      .section-head { align-items: flex-start; gap: 14px; }
+      .search-wrap { width: 100%; min-height: 48px; }
+      .search-wrap input { font-size: 1rem; }
+      .filter-tabs { gap: 8px; }
+      .filter-tab { min-height: 42px; padding: 9px 12px; }
+      .mini-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .mini-stat strong { font-size: 1.35rem; }
+      .mini-stat span { font-size: 0.58rem; letter-spacing: 0.06em; }
+      .hero { gap: 18px; padding-top: 30px; }
+      h1 { font-size: clamp(2.8rem, 13vw, 3.5rem); }
+      .hero-panel { padding: 18px; border-radius: 20px; }
+      .hero-panel h2 { margin-top: 20px; }
+      .rule-title { min-height: 88px; padding: 14px; gap: 12px; }
+      .rule-title p { font-size: 0.68rem; }
+      .rule-group { border-radius: 18px; }
+      .rule-list { padding: 6px 14px 8px; }
+      .rule { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; }
+    }
+
+    @media (max-width: 360px) {
+      .wrap { width: calc(100% - 24px); }
+      .brand { gap: 8px; font-size: 0.68rem; }
+      .brand-mark { width: 38px; height: 38px; }
+      .brand small { font-size: 0.5rem; }
+      .navlinks { gap: 2px; }
+      .navlinks a:not(.primary),
+      .navlinks .discord-rules-trigger,
+      .contacts-menu > summary { padding-right: 7px; padding-left: 7px; }
+      .lang-btn { padding-right: 8px; padding-left: 8px; }
+      .theme-toggle { gap: 5px; padding-right: 8px; padding-left: 7px; }
+      .theme-toggle__label { font-size: 0.58rem; }
     }
   </style>
 </head>
 <body>
+  <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="icon-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icon-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 11h8M8 14h5"/></symbol>
+    <symbol id="icon-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="m10 10-3.6-3.6M14 10l3.6-3.6M10 14l-3.6 3.6M14 14l3.6 3.6"/></symbol>
+    <symbol id="icon-door-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16M6 21V4l11-2v19M13 12h.01"/><path d="M10 12h10m-4-4 4 4-4 4"/></symbol>
+    <symbol id="icon-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 11 1.5-5h11L19 11l2 2v5h-2m-14 0H3v-5l2-2Z"/><path d="M5 11h14M7 18v2m10-2v2M7 15h.01M17 15h.01"/></symbol>
+    <symbol id="icon-messages" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-10.8 6.7L4 20l1.8-4.5A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 10h8m-8 3h5"/><path d="M7 4.2A8.5 8.5 0 0 1 21 11"/></symbol>
+    <symbol id="icon-bug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8v7a4 4 0 0 1-8 0V9Zm2-3 2-2 2 2M4 13h4m8 0h4M5 7l3 2m11-2-3 2M5 19l3-2m11 2-3-2M12 9v10"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2M9 2h6"/></symbol>
+    <symbol id="icon-user-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M3 20a6 6 0 0 1 12 0m3-8h4v8h-8v-8h2m1-3a3 3 0 0 1 6 0v3h-6V9Z"/></symbol>
+    <symbol id="icon-coins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="6" rx="6" ry="3"/><path d="M3 6v5c0 1.7 2.7 3 6 3 1.1 0 2.1-.2 3-.4M3 11v5c0 1.7 2.7 3 6 3 .4 0 .8 0 1.2-.1M15 9c3.3 0 6 1.3 6 3v7c0 1.7-2.7 3-6 3s-6-1.3-6-3v-7c0-1.7 2.7-3 6-3Z"/><path d="M9 12v7m12-7c0 1.7-2.7 3-6 3s-6-1.3-6-3"/></symbol>
+    <symbol id="icon-file-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10Z"/><path d="M13 3v7h7m-8 3v3m0 2h.01"/></symbol>
+    <symbol id="icon-shield-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z"/><path d="m12 8 1.2 2.4 2.7.4-2 1.9.5 2.7-2.4-1.3-2.4 1.3.5-2.7-2-1.9 2.7-.4L12 8Z"/></symbol>
+    <symbol id="icon-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4m14-1v2a3 3 0 0 1-3 3H3"/></symbol>
+    <symbol id="icon-scales" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18m-7 0h14M5 6h14M7 6l-4 8h8L7 6Zm10 0-4 8h8l-4-8Z"/><path d="M3 14a4 4 0 0 0 8 0m2 0a4 4 0 0 0 8 0"/></symbol>
+    <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="icon-traffic-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6a2 2 0 0 1 2 2v14H7V5a2 2 0 0 1 2-2Zm3 18v2m0-18h.01M12 11h.01M12 16h.01"/><path d="M12 5v.01m0 5v.01m0 5v.01" stroke-width="3"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></symbol>
+  </svg>
+
   <section class="entry-screen" id="entryScreen" aria-label="Вибір мови" data-hover-lang="uk">
     <div class="entry-content">
       <span class="entry-mark" aria-hidden="true"><img src="photo_2026-10-05_18-57-39.jpg" alt="" /></span>
       <h1>RivalRP</h1>
-      <p>Оберіть мову / Выберите язык</p>
+      <p data-i18n="entryWelcome">Ласкаво просимо до RivalRP</p>
       <div class="entry-languages">
         <button class="entry-language" type="button" data-entry-lang="uk">Українська</button>
         <button class="entry-language" type="button" data-entry-lang="ru">Русский</button>
@@ -1532,27 +1769,27 @@
 
   <header class="topbar">
     <div class="wrap nav">
-      <a href="#top" class="brand" aria-label="RivalRP home">
+      <a href="#top" class="brand" aria-label="RivalRP — головна сторінка">
         <span class="brand-mark"><img src="photo_2026-10-05_18-57-39.jpg" alt="" /></span>
         <span>
           RivalRP
-          <small>rules</small>
+          <small>правила</small>
         </span>
       </a>
 
-      <nav class="navlinks" aria-label="Main navigation">
+      <nav class="navlinks" aria-label="Головна навігація">
         <div class="lang-switch" aria-label="Вибір мови" data-lang="uk">
           <span class="lang-switch__track" aria-hidden="true"></span>
           <button class="lang-btn active" type="button" data-lang="uk">UA</button>
           <button class="lang-btn" type="button" data-lang="ru">RU</button>
         </div>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключити тему">
-          <span class="theme-toggle__icon">☀</span>
+          <span class="theme-toggle__icon" aria-hidden="true"><svg class="icon-sun" viewBox="0 0 24 24"><use href="#icon-sun"></use></svg><svg class="icon-moon" viewBox="0 0 24 24"><use href="#icon-moon"></use></svg></span>
           <span class="theme-toggle__label">Світла</span>
         </button>
         <a href="#rules" data-i18n="navRules">Правила</a>
         <button class="discord-rules-trigger" type="button" data-discord-rules-open data-i18n-aria="discordRulesLink" data-i18n-title="discordRulesLink" aria-label="Правила Discord" title="Правила Discord">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3.75v4h4M9 12h6M9 15.5h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-messages"></use></svg>
           <span class="discord-rules-trigger__label" data-i18n="discordRulesLink">Правила Discord</span>
         </button>
         <details class="contacts-menu" id="contacts">
@@ -1573,19 +1810,19 @@
   </header>
 
   <main id="top" class="wrap">
-    <section class="hero" aria-label="Intro">
+    <section class="hero" aria-label="Вступ">
       <div>
         <h1>
           <span data-i18n="heroLine1">Чесна гра.</span><br>
-          <span class="accent" data-i18n="heroLine2">Повагa.</span><br>
+          <span class="accent" data-i18n="heroLine2">Повага.</span><br>
           <span data-i18n="heroLine3">Репутація.</span>
         </h1>
-        <p class="subtitle" data-i18n="heroSubtitle">Правила сервера створені для комфортного і справедливого RolePlay. Вони відповідають за якість атмосфери, взаємодію між гравцями та стабільну гру без хаосу.</p>
+        <p class="subtitle" data-i18n="heroSubtitle">Правила сервера створені для комфортної та справедливої рольової гри (RP). Вони підтримують якісну атмосферу, взаємодію між гравцями та стабільну гру без хаосу.</p>
       </div>
 
-      <aside class="hero-panel" aria-label="Summary panel">
+      <aside class="hero-panel" aria-label="Коротко про правила">
         <div class="panel-top">
-            <span data-i18n="projectDoc">Вже 13.5 розділів</span>
+            <span data-i18n="projectDoc">ДОКУМЕНТ ПРОЄКТУ</span>
           <span class="status" data-i18n="projectStatus">Активно</span>
         </div>
 
@@ -1594,7 +1831,7 @@
 
         <div class="mini-stats">
           <div class="mini-stat">
-            <strong>13.5</strong>
+            <strong>18</strong>
             <span data-i18n="statSections">Розділів</span>
           </div>
           <div class="mini-stat">
@@ -1609,14 +1846,14 @@
       </aside>
     </section>
 
-    <section id="rules" aria-label="Rules section">
+    <section id="rules" aria-label="Розділ правил">
       <div class="section-head">
         <div>
           <h2 data-i18n="rulesTitle">Правила сервера</h2>
           <p data-i18n="rulesSubtitle">Оберіть розділ або скористайтеся пошуком за потрібним пунктом.</p>
         </div>
 
-        <label class="search-wrap" aria-label="Search rules">
+        <label class="search-wrap" aria-label="Пошук правил">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18C12.6974 18 14.2774 17.3247 15.5138 16.2309L19.7071 20.4243L20.4142 19.7172L16.2209 15.5239C17.3147 14.2875 18 12.7074 18 11C18 7.13401 14.866 4 11 4ZM11 5.5C14.0376 5.5 16.5 7.96243 16.5 11C16.5 14.0376 14.0376 16.5 11 16.5C7.96243 16.5 5.5 14.0376 5.5 11C5.5 7.96243 7.96243 5.5 11 5.5Z" fill="currentColor"/>
           </svg>
@@ -1625,295 +1862,341 @@
       </div>
 
       <div class="filter-tabs" aria-label="Фільтри правил">
-        <button class="filter-tab active" type="button" data-filter="all" data-i18n="filterAll">Всі</button>
+        <button class="filter-tab active" type="button" data-filter="all" data-i18n="filterAll">Усі</button>
         <button class="filter-tab" type="button" data-filter="light-cases" data-i18n="filterLightCases">Легкі випадки</button>
-        <button class="filter-tab" type="button" data-filter="bans" data-i18n="filterBans">Бани</button>
+        <button class="filter-tab" type="button" data-filter="fines" data-i18n="filterFines">Штрафи</button>
+        <button class="filter-tab" type="button" data-filter="bans" data-i18n="filterBans">Блокування</button>
         <button class="filter-tab" type="button" data-filter="heavy-bans" data-i18n="filterHeavy">Тяжкі</button>
       </div>
 
       <div class="content">
-        <aside class="sidebar" aria-label="Rule navigation">
+        <aside class="sidebar" aria-label="Навігація правилами">
           <div class="side-title" data-i18n="navTitle">Навігація</div>
-          <a class="side-link punishment" href="#punishments"><span class="num">&nbsp;</span><span data-i18n="navPunishments">Система покарань</span></a>
-          <a class="side-link active" href="#general"><span class="num">01</span><span data-i18n="navGeneral">Загальні</span></a>
-          <a class="side-link" href="#rp"><span class="num">02</span><span data-i18n="navRp">RolePlay</span></a>
-          <a class="side-link" href="#meta"><span class="num">03</span><span data-i18n="navMeta">Meta / IC / OOC</span></a>
-          <a class="side-link" href="#escape"><span class="num">04</span><span data-i18n="navEscape">Відхід від RP</span></a>
-          <a class="side-link" href="#transport"><span class="num">05</span><span data-i18n="navTransport">Транспорт</span></a>
-          <a class="side-link" href="#chat"><span class="num">06</span><span data-i18n="navChat">Спілкування</span></a>
-          <a class="side-link" href="#cheats"><span class="num">07</span><span data-i18n="navCheats">Баги / Чити</span></a>
-          <a class="side-link" href="#afk"><span class="num">08</span><span data-i18n="navAfk">AFK / FARM</span></a>
-          <a class="side-link" href="#accounts"><span class="num">09</span><span data-i18n="navAccounts">Аккаунти</span></a>
-          <a class="side-link" href="#economy"><span class="num">10</span><span data-i18n="navEconomy">Економіка</span></a>
-          <a class="side-link" href="#content"><span class="num">11</span><span data-i18n="navContent">Контент</span></a>
-          <a class="side-link" href="#admin"><span class="num">12</span><span data-i18n="navAdmin">Адмін</span></a>
-          <a class="side-link" href="#recidiv"><span class="num">13</span><span data-i18n="navRecidiv">Рецидив</span></a>
-          <a class="side-link" href="#zzz"><span class="num">13.5</span><span data-i18n="navZzz">ЗЗ</span></a>
+          <a class="side-link punishment" href="#punishments"><span class="num">&nbsp;</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-shield-star"></use></svg></span><span data-i18n="navPunishments">Система покарань</span></a>
+          <a class="side-link active" href="#pdr"><span class="num">01</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-traffic-light"></use></svg></span><span>ПДР</span></a>
+          <a class="side-link" href="#weapons"><span class="num">02</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-shield-check"></use></svg></span><span>Зброя</span></a>
+          <a class="side-link" href="#voice-chat"><span class="num">03</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-messages"></use></svg></span><span>Голосовий чат</span></a>
+          <a class="side-link" href="#attack"><span class="num">04</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-shield-star"></use></svg></span><span>Напад</span></a>
+          <a class="side-link" href="#nrp-behavior"><span class="num">05</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-network"></use></svg></span><span>NRP-поведінка</span></a>
+          <a class="side-link" href="#robbery"><span class="num">06</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-coins"></use></svg></span><span>Пограбування</span></a>
+          <a class="side-link" href="#nrp-police"><span class="num">07</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-user-lock"></use></svg></span><span>NRP-поліція</span></a>
+          <a class="side-link" href="#bullying"><span class="num">08</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-message"></use></svg></span><span>Булінг</span></a>
+          <a class="side-link" href="#court"><span class="num">09</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-scales"></use></svg></span><span>Суд</span></a>
+          <a class="side-link" href="#ads"><span class="num">10</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-message"></use></svg></span><span>Реклама</span></a>
+          <a class="side-link" href="#cheats"><span class="num">11</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-bug"></use></svg></span><span>Чити</span></a>
+          <a class="side-link" href="#bhop"><span class="num">12</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-car"></use></svg></span><span>Стрибки з прискоренням</span></a>
+          <a class="side-link" href="#procedure"><span class="num">13</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-file-warning"></use></svg></span><span>Процесуальні дії</span></a>
+          <a class="side-link" href="#avoid-punishment"><span class="num">14</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-repeat"></use></svg></span><span>Уникнення покарання</span></a>
+          <a class="side-link" href="#territory"><span class="num">15</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-map-pin"></use></svg></span><span>Проникнення на територію</span></a>
+          <a class="side-link" href="#government"><span class="num">16</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-shield-check"></use></svg></span><span>Державні служби</span></a>
+          <a class="side-link" href="#green-zones"><span class="num">17</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-map-pin"></use></svg></span><span>Зелені зони</span></a>
+          <a class="side-link" href="#lockpicks"><span class="num">18</span><span class="side-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#icon-door-open"></use></svg></span><span>Відмички</span></a>
         </aside>
 
         <div class="rules" id="ruleContainer">
-          <article class="rule-group" id="general" data-category="all">
+          <article class="rule-group" id="pdr" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">✦</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-traffic-light"></use></svg></span>
               <div>
-                <h3 data-i18n="groupGeneralTitle">1. Загальні правила</h3>
-                <p data-i18n="groupGeneralDesc">Основи поведінки на сервері</p>
+                <h3>1. Правила дорожнього руху</h3>
+                <p>Правила дорожнього руху та обов’язки водіїв.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">1.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.1</span><span class="tag violet">Загальне</span></div><strong class="rule-title-inline">Незнання правил проекту не звільняє від відповідальності.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">1.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.2</span><span class="tag violet">Ігровий процес</span></div><strong class="rule-title-inline">Заборонено навмисно заважати ігровому процесу інших гравців.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">1.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.3</span><span class="tag violet">Адміністрація</span></div><strong class="rule-title-inline">Заборонено видавати себе за адміністрацію або представників проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
-              <div class="rule"><span class="num">1.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.4</span><span class="tag violet">Адмін-робота</span></div><strong class="rule-title-inline">Заборонено перешкоджати роботі адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">1.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 1.5</span><span class="tag violet">Уразливості</span></div><strong class="rule-title-inline">Заборонено використовувати вразливості правил або ігрових систем для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
+              <div class="rule"><span class="num">1.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.0</span><span class="tag violet">Traffic</span></div><strong class="rule-title-inline">Їзда зустрічною смугою</strong><div class="rule-translation"><span>English:</span> Driving in the oncoming lane</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€</span></div></div></div>
+              <div class="rule"><span class="num">1.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.1</span><span class="tag violet">Traffic Lights</span></div><strong class="rule-title-inline">Проїзд на червоне світло</strong><div class="rule-translation"><span>English:</span> Driving through a red light</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>100€</span></div></div></div>
+              <div class="rule"><span class="num">1.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.2</span><span class="tag violet">Lights</span></div><strong class="rule-title-inline">Вимкнені фари в темну пору доби</strong><div class="rule-translation"><span>English:</span> Headlights off at night</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>2000€</span></div></div></div>
+              <div class="rule"><span class="num">1.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.3</span><span class="tag violet">Parking</span></div><strong class="rule-title-inline">Неправильне паркування</strong><div class="rule-translation"><span>English:</span> Improper parking</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3000€</span></div></div></div>
+              <div class="rule"><span class="num">1.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.4</span><span class="tag violet">Signals</span></div><strong class="rule-title-inline">Невикористання покажчиків повороту</strong><div class="rule-translation"><span>English:</span> Failure to use turn signals</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>2500€</span></div></div></div>
+              <div class="rule"><span class="num">1.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.5</span><span class="tag violet">Driving</span></div><strong class="rule-title-inline">Необережна їзда</strong><div class="rule-translation"><span>English:</span> Reckless driving</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4500€</span></div></div></div>
+              <div class="rule"><span class="num">1.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.6</span><span class="tag violet">Accident</span></div><strong class="rule-title-inline">Втеча з місця ДТП</strong><div class="rule-translation"><span>English:</span> Leaving the scene of an accident</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або 3500€</span></div></div></div>
+              <div class="rule"><span class="num">1.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.7</span><span class="tag violet">Overtaking</span></div><strong class="rule-title-inline">Обгін автомобіля</strong><div class="rule-translation"><span>English:</span> Overtaking another vehicle</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>1500€</span></div></div></div>
+              <div class="rule"><span class="num">1.8</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.8</span><span class="tag violet">Emergency lights</span></div><strong class="rule-title-inline">Використання проблискових маячків без потреби</strong><div class="rule-translation"><span>English:</span> Using warning lights without necessity</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>1000€</span></div></div></div>
+              <div class="rule"><span class="num">1.9</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.9</span><span class="tag violet">Agricultural</span></div><strong class="rule-title-inline">Сільськогосподарський транспорт у місті</strong><div class="rule-translation"><span>English:</span> Agricultural vehicles in the city</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>7000€</span></div></div></div>
+              <div class="rule"><span class="num">1.10</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.10</span><span class="tag violet">Police chase</span></div><strong class="rule-title-inline">Переслідування поліцією</strong><div class="rule-translation"><span>English:</span> Evading police pursuit</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>КПЗ або 8000€</span></div></div></div>
+              <div class="rule"><span class="num">1.11</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.11</span><span class="tag violet">Speeding</span></div><strong class="rule-title-inline">Перевищення швидкості понад 150 км/год</strong><div class="rule-translation"><span>English:</span> Speeding above 150 km/h</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3500€</span></div></div></div>
+              <div class="rule"><span class="num">1.12</span><div class="rule-content"><div class="rule-header"><span class="tag violet">1.12</span><span class="tag violet">Cutting off</span></div><strong class="rule-title-inline">Підрізання автомобіля</strong><div class="rule-translation"><span>English:</span> Cutting off another vehicle</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="rp" data-category="all">
+          <article class="rule-group" id="weapons" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">◌</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shield-check"></use></svg></span>
               <div>
-                <h3 data-i18n="groupRpTitle">2. Role Play</h3>
-                <p data-i18n="groupRpDesc">Логіка персонажа та RP-поведінка</p>
+                <h3>2. Зброя</h3>
+                <p>Використання, носіння та правила поводження зі зброєю.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">2.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.1</span><span class="tag violet">DM</span></div><strong class="rule-title-inline">DM — вбивство/напад без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.2</span><span class="tag violet">RDM</span></div><strong class="rule-title-inline">RDM — випадкове вбивство гравця без причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.3</span><span class="tag violet">VDM</span></div><strong class="rule-title-inline">VDM — навмисне вбивство гравця транспортом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
-              <div class="rule"><span class="num">2.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.4</span><span class="tag violet">DB</span></div><strong class="rule-title-inline">DB — стрілянина з транспорту з порушенням RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.5</span><span class="tag violet">RK</span></div><strong class="rule-title-inline">RK — повернення після смерті з метою помсти.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.6</span><span class="tag violet">TK</span></div><strong class="rule-title-inline">TK — вбивство союзника/члена своєї організації без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.7</span><span class="tag violet">SK</span></div><strong class="rule-title-inline">SK — вбивство гравця на місці появи.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
-              <div class="rule"><span class="num">2.8</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.8</span><span class="tag violet">PG</span></div><strong class="rule-title-inline">PG — вчинення нереалістичних дій або ігнорування очевидної небезпеки.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.9</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.9</span><span class="tag violet">Fear RP</span></div><strong class="rule-title-inline">Fear RP — відсутність страху за життя персонажа в небезпечній ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.10</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.10</span><span class="tag violet">Force RP</span></div><strong class="rule-title-inline">Force RP — нав’язування іншому гравцю результату RP-ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.11</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.11</span><span class="tag violet">NonRP</span></div><strong class="rule-title-inline">NonRP — дії, які порушують логіку RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
-              <div class="rule"><span class="num">2.12</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.12</span><span class="tag violet">NRD</span></div><strong class="rule-title-inline">NRD — нереалістичне управління транспортом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">2.13</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.13</span><span class="tag violet">BH</span></div><strong class="rule-title-inline">BH — використання Bunny Hop для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">2.14</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 2.14</span><span class="tag violet">No Pain / НР</span></div><strong class="rule-title-inline">No Pain / НР — відсутність реакції на серйозні травми.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
+              <div class="rule"><span class="num">2.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">2.0</span><span class="tag violet">Carrying</span></div><strong class="rule-title-inline">Відкрите носіння зброї</strong><div class="rule-translation"><span>English:</span> Open carry of a weapon</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3000€</span></div></div></div>
+              <div class="rule"><span class="num">2.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">2.1</span><span class="tag violet">License</span></div><strong class="rule-title-inline">Використання зброї без ліцензії</strong><div class="rule-translation"><span>English:</span> Using a weapon without a license</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€ і конфіскація</span></div></div></div>
+              <div class="rule"><span class="num">2.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">2.2</span><span class="tag violet">Unjustified</span></div><strong class="rule-title-inline">Використання зброї без причини</strong><div class="rule-translation"><span>English:</span> Using a weapon without cause</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€ або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">2.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">2.3</span><span class="tag violet">Transfer</span></div><strong class="rule-title-inline">Передавання зброї іншим особам</strong><div class="rule-translation"><span>English:</span> Passing a weapon to another person</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>2500€</span></div></div></div>
+              <div class="rule"><span class="num">2.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">2.4</span><span class="tag violet">City</span></div><strong class="rule-title-inline">Використання зброї в місті без підстав</strong><div class="rule-translation"><span>English:</span> Using a weapon in the city without justification</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="meta" data-category="all">
+          <article class="rule-group" id="voice-chat" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">◈</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-messages"></use></svg></span>
               <div>
-                <h3 data-i18n="groupMetaTitle">3. Meta / IC / OOC</h3>
-                <p data-i18n="groupMetaDesc">Взаємодія ігрового світу та реальності</p>
+                <h3>3. Голосовий чат</h3>
+                <p>Музика, перебивання та порушення в голосових каналах.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">3.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.1</span><span class="tag violet">MG</span></div><strong class="rule-title-inline">MG — використання інформації, отриманої поза грою, в IC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">3.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.2</span><span class="tag violet">Mixing</span></div><strong class="rule-title-inline">Mixing — змішування IC та OOC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">3.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.3</span><span class="tag violet">Зовнішні чати</span></div><strong class="rule-title-inline">Заборонено використовувати інформацію з Discord, стрімів або сторонніх чатів, яку персонаж не міг отримати IC.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
-              <div class="rule"><span class="num">3.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 3.4</span><span class="tag violet">OOC</span></div><strong class="rule-title-inline">Заборонено використовувати OOC-конфлікти як причину для IC-дій.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">3.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">3.0</span><span class="tag violet">Noise</span></div><strong class="rule-title-inline">Гучна музика та сторонні звуки</strong><div class="rule-translation"><span>English:</span> Loud music and unrelated sounds</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4000€</span></div></div></div>
+              <div class="rule"><span class="num">3.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">3.1</span><span class="tag violet">Russian music</span></div><strong class="rule-title-inline">Російська музика</strong><div class="rule-translation"><span>English:</span> Russian music</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 3 дні</span></div></div></div>
+              <div class="rule"><span class="num">3.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">3.2</span><span class="tag violet">Interrupting</span></div><strong class="rule-title-inline">Перебивання</strong><div class="rule-translation"><span>English:</span> Interrupting others</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3500€</span></div></div></div>
+              <div class="rule"><span class="num">3.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">3.3</span><span class="tag violet">Sexual sounds</span></div><strong class="rule-title-inline">Сексуальні звуки</strong><div class="rule-translation"><span>English:</span> Sexual sounds</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або 7000€</span></div></div></div>
+              <div class="rule"><span class="num">3.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">3.4</span><span class="tag violet">Propaganda</span></div><strong class="rule-title-inline">Російська пропаганда</strong><div class="rule-translation"><span>English:</span> Russian propaganda</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан назавжди</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="escape" data-category="all">
+          <article class="rule-group" id="attack" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⛶</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shield-star"></use></svg></span>
               <div>
-                <h3 data-i18n="groupEscapeTitle">4. Відхід від RP</h3>
-                <p data-i18n="groupEscapeDesc">Ухилення від сценарної ситуації</p>
+                <h3>4. Напад</h3>
+                <p>Умисне вбивство, насильство та напади на гравців.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">4.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.1</span><span class="tag violet">Combat Log</span></div><strong class="rule-title-inline">Combat Log — вихід з гри під час активної RP-ситуації для уникнення наслідків.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–5 днів</span></div></div></div>
-              <div class="rule"><span class="num">4.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.2</span><span class="tag violet">RP Escape</span></div><strong class="rule-title-inline">RP Escape — навмисний втеча від RP-ситуації забороненим способом.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">4.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.3</span><span class="tag violet">Використання механік</span></div><strong class="rule-title-inline">Заборонено використовувати механіки гри для навмисного уникнення RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">4.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 4.4</span><span class="tag violet">Cop Baiting</span></div><strong class="rule-title-inline">Cop Baiting — навмисна провокація співробітників поліції без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">4.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">4.0</span><span class="tag violet">VDM</span></div><strong class="rule-title-inline">Вбивство транспортом (VDM)</strong><div class="rule-translation"><span>English:</span> Vehicle deathmatch</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>6000€ або бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">4.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">4.1</span><span class="tag violet">RDM</span></div><strong class="rule-title-inline">Випадкове вбивство (RDM)</strong><div class="rule-translation"><span>English:</span> Random deathmatch</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€ або бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">4.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">4.2</span><span class="tag violet">RK</span></div><strong class="rule-title-inline">Помста після відродження (RK)</strong><div class="rule-translation"><span>English:</span> Revenge kill</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4000€ або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">4.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">4.3</span><span class="tag violet">DM</span></div><strong class="rule-title-inline">Напад (DM) від 3 ударів</strong><div class="rule-translation"><span>English:</span> Deathmatch after 3 hits</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3000€</span></div></div></div>
+              <div class="rule"><span class="num">4.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">4.4</span><span class="tag violet">Murder</span></div><strong class="rule-title-inline">Убивство</strong><div class="rule-translation"><span>English:</span> Murder</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€ або КПЗ</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="transport" data-category="all">
+          <article class="rule-group" id="nrp-behavior" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⟡</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-network"></use></svg></span>
               <div>
-                <h3 data-i18n="groupTransportTitle">5. Транспорт</h3>
-                <p data-i18n="groupTransportDesc">Водіння, транспорт і інциденти</p>
+                <h3>5. NRP-поведінка</h3>
+                <p>Порушення правил рольової гри та логіки персонажа.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">5.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.1</span><span class="tag violet">Car Ramming</span></div><strong class="rule-title-inline">Car Ramming — навмисний таран гравця або транспорту без RP-причини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">5.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.2</span><span class="tag violet">Транспорт як зброя</span></div><strong class="rule-title-inline">Заборонено використовувати транспорт як зброю без відповідної RP-ситуації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">5.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.3</span><span class="tag violet">Нереалістична їзда</span></div><strong class="rule-title-inline">Заборонена нереалістична їзда, що порушує RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
-              <div class="rule"><span class="num">5.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 5.4</span><span class="tag violet">Блокування зон</span></div><strong class="rule-title-inline">Заборонено навмисно блокувати дороги, входи та важливі ігрові зони.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
+              <div class="rule"><span class="num">5.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.0</span><span class="tag violet">Power Gaming</span></div><strong class="rule-title-inline">Нереалістичні дії персонажа (PG)</strong><div class="rule-translation"><span>English:</span> Power gaming</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">5.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.1</span><span class="tag violet">Meta Gaming</span></div><strong class="rule-title-inline">Метагеймінг (MG)</strong><div class="rule-translation"><span>English:</span> Meta gaming</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">5.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.2</span><span class="tag violet">Fail RP</span></div><strong class="rule-title-inline">Порушення логіки рольової гри</strong><div class="rule-translation"><span>English:</span> Fail roleplay</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">5.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.3</span><span class="tag violet">CopBaiting</span></div><strong class="rule-title-inline">Провокування поліції без причини</strong><div class="rule-translation"><span>English:</span> Police baiting</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4000€ або попередження</span></div></div></div>
+              <div class="rule"><span class="num">5.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.4</span><span class="tag violet">AFK kill</span></div><strong class="rule-title-inline">Убивство AFK-персонажа</strong><div class="rule-translation"><span>English:</span> Killing an AFK character</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€</span></div></div></div>
+              <div class="rule"><span class="num">5.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.5</span><span class="tag violet">Fear RP</span></div><strong class="rule-title-inline">Відсутність страху за життя персонажа</strong><div class="rule-translation"><span>English:</span> Lack of Fear RP</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">5.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.6</span><span class="tag violet">Combat Logging</span></div><strong class="rule-title-inline">Вихід з гри під час активної RP-ситуації</strong><div class="rule-translation"><span>English:</span> Logging out during combat</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або бан на 3 дні</span></div></div></div>
+              <div class="rule"><span class="num">5.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.7</span><span class="tag violet">Officer interference</span></div><strong class="rule-title-inline">Перешкоджання офіцеру під час затримання або погоні та його вбивство</strong><div class="rule-translation"><span>English:</span> Obstructing an officer during arrest or chase and killing them</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 3 дні</span></div></div></div>
+              <div class="rule"><span class="num">5.8</span><div class="rule-content"><div class="rule-header"><span class="tag violet">5.8</span><span class="tag violet">Criminal ride</span></div><strong class="rule-title-inline">Їзда зі злочинцем на поліцейському автомобілі</strong><div class="rule-translation"><span>English:</span> Riding with a criminal in a police vehicle</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 16 днів для співучасників і поліцейського</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="chat" data-category="all">
+          <article class="rule-group" id="robbery" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">☰</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-coins"></use></svg></span>
               <div>
-                <h3 data-i18n="groupChatTitle">6. Спілкування</h3>
-                <p data-i18n="groupChatDesc">Чат, наклеп, реклама та конфлікти</p>
+                <h3>6. Пограбування</h3>
+                <p>Правила пограбування різних місць і об’єктів.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">6.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.1</span><span class="tag violet">Оскорблення</span></div><strong class="rule-title-inline">Заборонені образи гравців.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–2 дня</span></div></div></div>
-              <div class="rule"><span class="num">6.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.2</span><span class="tag violet">Адміністрація</span></div><strong class="rule-title-inline">Заборонені образи адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">6.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.3</span><span class="tag violet">Погрози</span></div><strong class="rule-title-inline">Заборонені загрози реальним розправою.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
-              <div class="rule"><span class="num">6.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.4</span><span class="tag violet">Персональні дані</span></div><strong class="rule-title-inline">Заборонена публікація чужих персональних даних.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
-              <div class="rule"><span class="num">6.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.5</span><span class="tag violet">Спам / флуд</span></div><strong class="rule-title-inline">Заборонені спам і флуд, що заважають роботі чату.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">6.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.6</span><span class="tag violet">Реклама</span></div><strong class="rule-title-inline">Заборонена реклама сторонніх проєктів без дозволу адміністрації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3–7 днів</span></div></div></div>
-              <div class="rule"><span class="num">6.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 6.7</span><span class="tag violet">Провокація</span></div><strong class="rule-title-inline">Заборонена навмисна провокація конфліктів між гравцями.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
+              <div class="rule"><span class="num">6.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.0</span><span class="tag violet">Gas station</span></div><strong class="rule-title-inline">Пограбування заправки</strong><div class="rule-translation"><span>English:</span> Robbery of a gas station</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3500€</span></div></div></div>
+              <div class="rule"><span class="num">6.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.1</span><span class="tag violet">Store</span></div><strong class="rule-title-inline">Пограбування магазину</strong><div class="rule-translation"><span>English:</span> Robbery of a store</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€</span></div></div></div>
+              <div class="rule"><span class="num">6.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.2</span><span class="tag violet">Jewelry</span></div><strong class="rule-title-inline">Пограбування ювелірного магазину</strong><div class="rule-translation"><span>English:</span> Robbery of a jewelry store</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Штраф за рішенням судді і конфіскація</span></div></div></div>
+              <div class="rule"><span class="num">6.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.3</span><span class="tag violet">Bank</span></div><strong class="rule-title-inline">Пограбування банку</strong><div class="rule-translation"><span>English:</span> Bank robbery</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>КПЗ або 8000€ і конфіскація</span></div></div></div>
+              <div class="rule"><span class="num">6.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.4</span><span class="tag violet">Vending machine</span></div><strong class="rule-title-inline">Пограбування торгового автомата</strong><div class="rule-translation"><span>English:</span> Robbery of a vending machine</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>1500€</span></div></div></div>
+              <div class="rule"><span class="num">6.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.5</span><span class="tag violet">Container</span></div><strong class="rule-title-inline">Пограбування контейнера</strong><div class="rule-translation"><span>English:</span> Robbery of a container</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>6000€ і конфіскація</span></div></div></div>
+              <div class="rule"><span class="num">6.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">6.6</span><span class="tag violet">Club</span></div><strong class="rule-title-inline">Пограбування клубу</strong><div class="rule-translation"><span>English:</span> Robbery of a club</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>6000€ і КПЗ</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="nrp-police" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shield-check"></use></svg></span>
+              <div>
+                <h3>7. NRP-поліція</h3>
+                <p>Нереалістична поведінка поліції та порушення правил рольової гри.</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">7.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.0</span><span class="tag violet">Unjustified CAF</span></div><strong class="rule-title-inline">Безпідставне застосування кайданок</strong><div class="rule-translation"><span>English:</span> NRP CAF without reason</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>7000€ або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">7.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.1</span><span class="tag violet">XP</span></div><strong class="rule-title-inline">XP без дозволу гравця</strong><div class="rule-translation"><span>English:</span> XP without player permission</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або 2000€</span></div></div></div>
+              <div class="rule"><span class="num">7.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.2</span><span class="tag violet">Database</span></div><strong class="rule-title-inline">Перевірка бази даних на розшук</strong><div class="rule-translation"><span>English:</span> Checking the wanted database</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження або 3000€</span></div></div></div>
+              <div class="rule"><span class="num">7.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.3</span><span class="tag violet">Revenge</span></div><strong class="rule-title-inline">Каф заради помсти, тролінгу або булінгу</strong><div class="rule-translation"><span>English:</span> CAF for revenge, trolling or bullying</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 3 дні</span></div></div></div>
+              <div class="rule"><span class="num">7.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.4</span><span class="tag violet">Taser</span></div><strong class="rule-title-inline">Використання тазера без причини</strong><div class="rule-translation"><span>English:</span> Using a taser without reason</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€ або бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">7.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.5</span><span class="tag violet">Force</span></div><strong class="rule-title-inline">Застосування сили без потреби</strong><div class="rule-translation"><span>English:</span> Use of force without necessity</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Штраф на розсуд адміністрації</span></div></div></div>
+              <div class="rule"><span class="num">7.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.6</span><span class="tag violet">Distance</span></div><strong class="rule-title-inline">Відходити від поліції далі ніж на 5 метрів</strong><div class="rule-translation"><span>English:</span> Moving more than 5 meters away from police</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження</span></div></div></div>
+              <div class="rule"><span class="num">7.7</span><div class="rule-content"><div class="rule-header"><span class="tag violet">7.7</span><span class="tag violet">Custody</span></div><strong class="rule-title-inline">Везення до КПЗ без суду</strong><div class="rule-translation"><span>English:</span> Taking a suspect to jail without trial</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 2 дні</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="bullying" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-message"></use></svg></span>
+              <div>
+                <h3>8. Цькування</h3>
+                <p>Образи, цькування та погрози.</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">8.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">8.0</span><span class="tag violet">Harassment</span></div><strong class="rule-title-inline">Булінг, сексуальний контент тощо</strong><div class="rule-translation"><span>English:</span> Bullying, sexual content, and similar misconduct</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>6000€</span></div></div></div>
+              <div class="rule"><span class="num">8.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">8.1</span><span class="tag violet">Relatives</span></div><strong class="rule-title-inline">Булінг родичів</strong><div class="rule-translation"><span>English:</span> Harassing relatives</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 14 днів</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="court" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-scales"></use></svg></span>
+              <div>
+                <h3>9. Суд</h3>
+                <p>Судові рішення, робота суддів і дотримання правосуддя.</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">9.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.0</span><span class="tag violet">Judge attack</span></div><strong class="rule-title-inline">Перебивання судді, адвоката або прокурора</strong><div class="rule-translation"><span>English:</span> Assaulting a judge, lawyer or prosecutor</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>6500€</span></div></div></div>
+              <div class="rule"><span class="num">9.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.1</span><span class="tag violet">Ignoring sentence</span></div><strong class="rule-title-inline">Ігнорування рішення суду</strong><div class="rule-translation"><span>English:</span> Ignoring a court decision</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 1 день або 5000€</span></div></div></div>
+              <div class="rule"><span class="num">9.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.2</span><span class="tag violet">Hiding friends</span></div><strong class="rule-title-inline">Приховування друзів або знайомих</strong><div class="rule-translation"><span>English:</span> Hiding friends or acquaintances</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">9.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.3</span><span class="tag violet">Interference</span></div><strong class="rule-title-inline">Перешкоджання суду</strong><div class="rule-translation"><span>English:</span> Obstructing the court</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 2 дні або 5000€</span></div></div></div>
+              <div class="rule"><span class="num">9.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.4</span><span class="tag violet">Pressure</span></div><strong class="rule-title-inline">Тиск на суддю, адвоката або прокурора</strong><div class="rule-translation"><span>English:</span> Pressuring a judge, lawyer or prosecutor</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>2000€</span></div></div></div>
+              <div class="rule"><span class="num">9.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">9.5</span><span class="tag violet">Disrespect</span></div><strong class="rule-title-inline">Неповага до судді</strong><div class="rule-translation"><span>English:</span> Disrespect toward a judge</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3000€</span></div></div></div>
+            </div>
+          </article>
+
+          <article class="rule-group" id="ads" data-category="all">
+            <div class="rule-title">
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-message"></use></svg></span>
+              <div>
+                <h3>10. Реклама</h3>
+                <p>Спам, реклама та провокації.</p>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div class="rule"><span class="num">10.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">10.0</span><span class="tag violet">Spam</span></div><strong class="rule-title-inline">Реклама, спам, провокування</strong><div class="rule-translation"><span>English:</span> Advertising, spam and provocation</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан назавжди</span></div></div></div>
             </div>
           </article>
 
           <article class="rule-group" id="cheats" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">✧</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-bug"></use></svg></span>
               <div>
-                <h3 data-i18n="groupCheatsTitle">7. Баги та чити</h3>
-                <p data-i18n="groupCheatsDesc">Заборонене програмне забезпечення та помилки</p>
+                <h3>11. Чити</h3>
+                <p>Використання заборонених програм, багів та вразливостей гри.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">7.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.1</span><span class="tag violet">Bug Abuse</span></div><strong class="rule-title-inline">Bug Abuse — використання багів для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
-              <div class="rule"><span class="num">7.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.2</span><span class="tag violet">Критичний баг</span></div><strong class="rule-title-inline">Масове або навмисне використання критичного багу.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
-              <div class="rule"><span class="num">7.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.3</span><span class="tag violet">Чит</span></div><strong class="rule-title-inline">Використання читів або забороненого ПЗ.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 30 днів</span></div></div></div>
-              <div class="rule"><span class="num">7.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.4</span><span class="tag violet">Повторний чит</span></div><strong class="rule-title-inline">Повторне використання читів після попереднього покарання.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
-              <div class="rule"><span class="num">7.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.5</span><span class="tag violet">Розповсюдження</span></div><strong class="rule-title-inline">Розповсюдження читів або забороненого ПЗ.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
-              <div class="rule"><span class="num">7.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 7.6</span><span class="tag violet">Обхід античита</span></div><strong class="rule-title-inline">Обхід античита або систем захисту проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 30 днів / Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">11.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">11.0</span><span class="tag violet">Cheats</span></div><strong class="rule-title-inline">Чити, використання багів тощо</strong><div class="rule-translation"><span>English:</span> Cheats, use of exploits and bugs</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан назавжди</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="afk" data-category="all">
+          <article class="rule-group" id="bhop" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⬢</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-car"></use></svg></span>
               <div>
-                <h3 data-i18n="groupAfkTitle">8. AFK / FARM</h3>
-                <p data-i18n="groupAfkDesc">Автофарм, AFK та автоматизація</p>
+                <h3>12. Стрибки з прискоренням</h3>
+                <p>Заборонене використання стрибків для отримання переваги.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">8.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.1</span><span class="tag violet">AFK-Farm</span></div><strong class="rule-title-inline">AFK-Farm — автоматичне отримання ресурсів без активної участі гравця.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 3 дня</span></div></div></div>
-              <div class="rule"><span class="num">8.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.2</span><span class="tag violet">Автофарм</span></div><strong class="rule-title-inline">Використання сторонніх програм для автоматичного фарму.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
-              <div class="rule"><span class="num">8.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 8.3</span><span class="tag violet">Макроси</span></div><strong class="rule-title-inline">Використання макросів або автоматизації для отримання переваги.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">12.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">12.0</span><span class="tag violet">Bhop</span></div><strong class="rule-title-inline">Стрибки з прискоренням</strong><div class="rule-translation"><span>English:</span> Bunnyhop</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження. Повторний випадок — бан на 3 дні</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="accounts" data-category="all">
+          <article class="rule-group" id="procedure" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⌁</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-file-warning"></use></svg></span>
               <div>
-                <h3 data-i18n="groupAccountsTitle">9. Аккаунти</h3>
-                <p data-i18n="groupAccountsDesc">Обхід блокувань та безпека облікового запису</p>
+                <h3>13. Процесуальні дії</h3>
+                <p>Порушення процедур під час роботи поліції та суду.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">9.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.1</span><span class="tag violet">Bypass Ban</span></div><strong class="rule-title-inline">Bypass Ban — обхід блокування через інший аккаунт.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
-              <div class="rule"><span class="num">9.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.2</span><span class="tag violet">Повторний обхід</span></div><strong class="rule-title-inline">Повторний обхід блокування.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
-              <div class="rule"><span class="num">9.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.3</span><span class="tag violet">Чужий акаунт</span></div><strong class="rule-title-inline">Використання чужого аккаунта з метою обходу покарання.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів</span></div></div></div>
-              <div class="rule"><span class="num">9.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 9.4</span><span class="tag violet">Взлом</span></div><strong class="rule-title-inline">Крадіжка або злом чужого аккаунта.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">13.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">13.0</span><span class="tag violet">Video evidence</span></div><strong class="rule-title-inline">Відсутність відеофіксації порушення та затримання</strong><div class="rule-translation"><span>English:</span> Lack of video evidence of the violation and arrest</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>3000€</span></div></div></div>
+              <div class="rule"><span class="num">13.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">13.1</span><span class="tag violet">Identification</span></div><strong class="rule-title-inline">Непредставлення (звання, ім’я, посада)</strong><div class="rule-translation"><span>English:</span> Failure to provide rank, name or position</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 1 день або 4000€</span></div></div></div>
+              <div class="rule"><span class="num">13.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">13.2</span><span class="tag violet">Miranda rights</span></div><strong class="rule-title-inline">Неповідомлення прав Міранди</strong><div class="rule-translation"><span>English:</span> Failure to inform of Miranda rights</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4500€</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="economy" data-category="all">
+          <article class="rule-group" id="avoid-punishment" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">◫</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-repeat"></use></svg></span>
               <div>
-                <h3 data-i18n="groupEconomyTitle">10. Ігрова економіка</h3>
-                <p data-i18n="groupEconomyDesc">Валюта, ресурси та торгівля</p>
+                <h3>14. Ухилення від покарання</h3>
+                <p>Спроби уникнути штрафу, блокування чи іншого покарання.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">10.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.1</span><span class="tag violet">Багова валюта</span></div><strong class="rule-title-inline">Використання багів для отримання ігрової валюти або майна.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів</span></div></div></div>
-              <div class="rule"><span class="num">10.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.2</span><span class="tag violet">Шахрайство</span></div><strong class="rule-title-inline">Шахрайство з ігровими ресурсами.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
-              <div class="rule"><span class="num">10.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.3</span><span class="tag violet">Масове шахрайство</span></div><strong class="rule-title-inline">Масове шахрайство.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
-              <div class="rule"><span class="num">10.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 10.4</span><span class="tag violet">Реальні гроші</span></div><strong class="rule-title-inline">Продаж/купівля ігрових цінностей за реальні гроші поза дозволеними способами проєкту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів</span></div></div></div>
+              <div class="rule"><span class="num">14.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">14.0</span><span class="tag violet">Evasion</span></div><strong class="rule-title-inline">Уникнення покарання, штрафу або бану</strong><div class="rule-translation"><span>English:</span> Evading punishment, fines or bans</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 4 дні або назавжди</span></div></div></div>
+              <div class="rule"><span class="num">14.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">14.1</span><span class="tag violet">Leaving during RP</span></div><strong class="rule-title-inline">Вихід під час RP</strong><div class="rule-translation"><span>English:</span> Leaving during RP</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 1 день</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="content" data-category="all">
+          <article class="rule-group" id="territory" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">☼</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg></span>
               <div>
-                <h3 data-i18n="groupContentTitle">11. Заборонений контент</h3>
-                <p data-i18n="groupContentDesc">Сексуальний і неприйнятний вміст</p>
+                <h3>15. Проникнення на територію</h3>
+                <p>Порушення правил перебування на чужій території.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">11.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.1</span><span class="tag violet">ERP</span></div><strong class="rule-title-inline">ERP — сексуалізований RP.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7 днів</span></div></div></div>
-              <div class="rule"><span class="num">11.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.2</span><span class="tag violet">ERP з неповнолітніми</span></div><strong class="rule-title-inline">ERP з неповнолітніми персонажами.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
-              <div class="rule"><span class="num">11.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 11.3</span><span class="tag violet">Заборонений контент</span></div><strong class="rule-title-inline">Розповсюдження сексуального або іншого забороненого контенту.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban</span></div></div></div>
+              <div class="rule"><span class="num">15.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">15.0</span><span class="tag violet">Trespass</span></div><strong class="rule-title-inline">Проникнення на чужу територію</strong><div class="rule-translation"><span>English:</span> Entering someone else's territory</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 1 день або 3000€</span></div></div></div>
+              <div class="rule"><span class="num">15.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">15.1</span><span class="tag violet">Claiming</span></div><strong class="rule-title-inline">Привласнення чужої території</strong><div class="rule-translation"><span>English:</span> Claiming someone else's territory</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 3 дні</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="admin" data-category="all">
+          <article class="rule-group" id="government" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⚑</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shield-star"></use></svg></span>
               <div>
-                <h3 data-i18n="groupAdminTitle">12. Адміністрація</h3>
-                <p data-i18n="groupAdminDesc">Повноваження, порядок та дисципліна</p>
+                <h3>16. Державні служби</h3>
+                <p>Правила взаємодії з медиками, державними службами та їхнім майном.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">12.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.1</span><span class="tag violet">Особисті інтереси</span></div><strong class="rule-title-inline">Використання адміністративних повноважень в особистих цілях.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів + зняття з посади</span></div></div></div>
-              <div class="rule"><span class="num">12.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.2</span><span class="tag violet">Покривання</span></div><strong class="rule-title-inline">Покривання порушень друзів або знайомих.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів + зняття з посади</span></div></div></div>
-              <div class="rule"><span class="num">12.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.3</span><span class="tag violet">Особиста неприязнь</span></div><strong class="rule-title-inline">Видача покарання з особистої неприязні.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–14 днів + зняття з посади</span></div></div></div>
-              <div class="rule"><span class="num">12.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.4</span><span class="tag violet">Службова інформація</span></div><strong class="rule-title-inline">Розголошення службової інформації.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 7–30 днів + зняття з посади</span></div></div></div>
-              <div class="rule"><span class="num">12.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.5</span><span class="tag violet">Передача акаунта</span></div><strong class="rule-title-inline">Передача адміністративного аккаунта іншій людині.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban + зняття з посади</span></div></div></div>
-              <div class="rule"><span class="num">12.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 12.6</span><span class="tag violet">Зловживання повноваженнями</span></div><strong class="rule-title-inline">Зловживання адміністративними повноваженнями.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 14–30 днів + зняття з посади</span></div></div></div>
+              <div class="rule"><span class="num">16.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">16.0</span><span class="tag violet">Ambulance</span></div><strong class="rule-title-inline">Не пропустив швидку допомогу на виклик</strong><div class="rule-translation"><span>English:</span> Failing to yield to an ambulance on an emergency call</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>8000€</span></div></div></div>
+              <div class="rule"><span class="num">16.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">16.1</span><span class="tag violet">Public employee</span></div><strong class="rule-title-inline">Убив державного працівника</strong><div class="rule-translation"><span>English:</span> Killing a public employee</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>КПЗ</span></div></div></div>
+              <div class="rule"><span class="num">16.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">16.2</span><span class="tag violet">Vehicle damage</span></div><strong class="rule-title-inline">Зламав автомобіль державного працівника</strong><div class="rule-translation"><span>English:</span> Damaging a government employee’s vehicle</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Компенсація на розсуд держпрацівника</span></div></div></div>
+              <div class="rule"><span class="num">16.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">16.3</span><span class="tag violet">Covering a crime</span></div><strong class="rule-title-inline">Приховування злочину</strong><div class="rule-translation"><span>English:</span> Covering up a crime</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 4 дні</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="recidiv" data-category="all">
+          <article class="rule-group" id="green-zones" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⌬</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-map-pin"></use></svg></span>
               <div>
-                <h3 data-i18n="groupRecidivTitle">13. Рецидив</h3>
-                <p data-i18n="groupRecidivDesc">Повторні порушення та суворість санкцій</p>
+                <h3>17. Зелені зони</h3>
+                <p>Заборонені дії на території зелених зон.</p>
               </div>
             </div>
+            <figure class="green-zones-map">
+              <img src="greenzonesrivalrp.png" alt="Мапа зелених зон RivalRP" data-i18n-alt="greenMapAlt">
+              <figcaption data-i18n="greenMapCaption">Мапа зелених зон сервера RivalRP</figcaption>
+            </figure>
             <div class="rule-list">
-              <div class="rule"><span class="num">13.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.1</span><span class="tag violet">Рецидив</span></div><strong class="rule-title-inline">При повторному порушенні термін покарання може бути збільшений залежно від історії гравця.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від тяжкості та історії</span></div></div></div>
-              <div class="rule"><span class="num">13.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.2</span><span class="tag violet">Систематичні порушення</span></div><strong class="rule-title-inline">Систематичне порушення правил може призвести до збільшення строку аж до Permanent Ban.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Permanent Ban / збільшений термін</span></div></div></div>
-              <div class="rule"><span class="num">13.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.3</span><span class="tag violet">Масові порушення</span></div><strong class="rule-title-inline">Масове або особливо тяжке порушення може бути покаране суворіше стандартного терміну.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від ситуації</span></div></div></div>
-              <div class="rule"><span class="num">13.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.4</span><span class="tag violet">Докази</span></div><strong class="rule-title-inline">Адміністратор зобов’язаний враховувати докази, тяжкість порушення та історію покарань гравця перед видачею Ban.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Адміністративна оцінка</span></div></div></div>
+              <div class="rule"><span class="num">17.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">17.0</span><span class="tag violet">No fighting</span></div><strong class="rule-title-inline">Заборонені бійки</strong><div class="rule-translation"><span>English:</span> Fighting is prohibited</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€ або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">17.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">17.1</span><span class="tag violet">No shooting</span></div><strong class="rule-title-inline">Заборонена стрілянина</strong><div class="rule-translation"><span>English:</span> Firing is prohibited</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 3 дні</span></div></div></div>
+              <div class="rule"><span class="num">17.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">17.2</span><span class="tag violet">Mask / armor</span></div><strong class="rule-title-inline">Маска, броня, жилет</strong><div class="rule-translation"><span>English:</span> Mask, armor, vest</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>4000€</span></div></div></div>
             </div>
           </article>
 
-          <article class="rule-group" id="punishments" data-category="fines bans heavy-bans">
+          <article class="rule-group" id="lockpicks" data-category="all">
             <div class="rule-title">
-              <span class="rule-icon">⚖</span>
+              <span class="rule-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-shield-check"></use></svg></span>
               <div>
-                <h3 data-i18n="groupPunishmentsTitle">ПОКАРАННЯ</h3>
-                <p data-i18n="groupPunishmentsDesc">Базова система відповідальності</p>
+                <h3>18. Відмички</h3>
+                <p>Правила використання відмичок і зняття наручників.</p>
               </div>
             </div>
             <div class="rule-list">
-              <div class="rule"><span class="num">P1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Базовий тип</span></div><strong class="rule-title-inline">Важливо: вказані покарання є базовими. При повторному або особливо тяжкому порушенні строк може бути збільшений.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Залежить від повтору та серйозності порушення</span></div></div></div>
-              <div class="rule"><span class="num">P2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Мінімум</span></div><strong class="rule-title-inline">Мінімальний термін бану — 1 день.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">P3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Докази</span></div><strong class="rule-title-inline">Усі покарання мають видаватися лише при наявності достатніх доказів.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Адміністративна перевірка</span></div></div></div>
-              <div class="rule"><span class="num">P4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Система</span><span class="tag violet">Неприязнь</span></div><strong class="rule-title-inline">Адміністратор не має права видавати покарання виключно на основі особистого переконання або неприязні.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Скасування / перевірка</span></div></div></div>
-            </div>
-          </article>
-
-          <article class="rule-group" id="zzz" data-category="all">
-            <div class="rule-title">
-              <span class="rule-icon">◎</span>
-              <div>
-                <h3 data-i18n="groupZzzTitle">13.5. ЗЗ — Зелена зона</h3>
-                <p data-i18n="groupZzzDesc">Безпечна територія для відпочинку та безконфліктної гри</p>
-              </div>
-            </div>
-            <img class="green-zone-map" src="greenzonesrivalrp.png" alt="Мапа зелених зон RivalRP" data-i18n-alt="greenMapAlt" width="2560" height="1457" loading="lazy" />
-            <p class="green-zone-caption" data-i18n="greenMapCaption">Мапа зелених зон сервера RivalRP</p>
-            <div class="rule-list">
-              <div class="rule"><span class="num">13.5.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.1</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено доставати та використовувати зброю.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
-              <div class="rule"><span class="num">13.5.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.2</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено наносити шкоду гравцям та використовувати тазер.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день або попередження</span></div></div></div>
-              <div class="rule"><span class="num">13.5.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.3</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено доставати або використовувати нелегальні предмети.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1–3 дня</span></div></div></div>
-              <div class="rule"><span class="num">13.5.4</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.4</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено перебувати в масці.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження</span></div></div></div>
-              <div class="rule"><span class="num">13.5.5</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.5</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено починати бійки та конфлікти.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 1 день</span></div></div></div>
-              <div class="rule"><span class="num">13.5.6</span><div class="rule-content"><div class="rule-header"><span class="tag violet">Стаття 13.5.6</span><span class="tag violet">Заборонено</span></div><strong class="rule-title-inline">У ЗЗ заборонено здійснювати пограбування, викрадення та інші злочини.</strong><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Ban 2 дня</span></div></div></div>
+              <div class="rule"><span class="num">18.0</span><div class="rule-content"><div class="rule-header"><span class="tag violet">18.0</span><span class="tag violet">Lockpick</span></div><strong class="rule-title-inline">Відмичка без RP-відігрування</strong><div class="rule-translation"><span>English:</span> Lockpick without RP roleplay</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>5000€ або бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">18.1</span><div class="rule-content"><div class="rule-header"><span class="tag violet">18.1</span><span class="tag violet">Green zone</span></div><strong class="rule-title-inline">Зняття наручників відмичкою в зеленій зоні</strong><div class="rule-translation"><span>English:</span> Removing handcuffs with a lockpick in a green zone</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан на 2 дні</span></div></div></div>
+              <div class="rule"><span class="num">18.2</span><div class="rule-content"><div class="rule-header"><span class="tag violet">18.2</span><span class="tag violet">Police dead</span></div><strong class="rule-title-inline">Зняття наручників відмичкою біля вбитого поліцейського</strong><div class="rule-translation"><span>English:</span> Removing handcuffs with a lockpick near a dead police officer</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Попередження, потім бан на 1 день</span></div></div></div>
+              <div class="rule"><span class="num">18.3</span><div class="rule-content"><div class="rule-header"><span class="tag violet">18.3</span><span class="tag violet">Vehicle</span></div><strong class="rule-title-inline">Відмичка, коли злочинець у машині</strong><div class="rule-translation"><span>English:</span> Lockpick when the criminal is in a vehicle</div><div class="rule-meta"><span class="punishment-tag">ПОКАРАННЯ:</span><span>Бан 1 день або Штраф 7000€</span></div></div></div>
             </div>
           </article>
 
           <div class="empty" id="empty">
-            <span class="empty-icon">⌕</span>
+            <span class="empty-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-search"></use></svg></span>
             <span class="empty-title" data-i18n="emptyTitle">Нічого не знайдено</span>
             <span class="empty-subtitle" data-i18n="emptySubtitle">Спробуйте змінити запит або фільтр.</span>
           </div>
@@ -1932,7 +2215,7 @@
   <dialog class="discord-rules-dialog" id="discordRulesDialog" aria-labelledby="discordRulesTitle" aria-describedby="discordRulesIntro">
     <div class="discord-rules-dialog__header">
       <div>
-        <span class="discord-rules-dialog__eyebrow">Discord</span>
+        <span class="discord-rules-dialog__eyebrow"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-messages"></use></svg>Discord</span>
         <h2 id="discordRulesTitle" data-i18n="discordRulesTitle">ПРАВИЛА DISCORD-СЕРВЕРА</h2>
         <p class="discord-rules-dialog__intro" id="discordRulesIntro" data-i18n="discordRulesIntro">Правила касаются общения в Discord, а не игрового процесса.</p>
       </div>
@@ -2036,6 +2319,7 @@
     const translations = {
       uk: {
         documentTitle: 'RivalRP | Правила сервера',
+        entryWelcome: 'Ласкаво просимо до RivalRP',
         searchAria: 'Пошук правил',
         greenMapAlt: 'Мапа зелених зон RivalRP',
         greenMapCaption: 'Мапа зелених зон сервера RivalRP',
@@ -2066,9 +2350,9 @@
         discordRuleVoiceText: 'Не заважайте розмовам гучними звуками та не записуйте учасників без їхньої згоди.',
         themeLight: 'Світла',
         themeDark: 'Темна',
-        themeSwitchToLight: 'Переключити на світлу тему',
-        themeSwitchToDark: 'Переключити на темну тему',
-        projectDoc: 'Вже 13.5 розділів',
+        themeSwitchToLight: 'Перемкнути на світлу тему',
+        themeSwitchToDark: 'Перемкнути на темну тему',
+        projectDoc: 'ДОКУМЕНТ ПРОЄКТУ',
         projectStatus: 'Активно',
         projectSummary: 'Обов’язкові для всіх гравців незалежно від досвіду, рангу й ролі.',
         statSections: 'Розділів',
@@ -2077,24 +2361,25 @@
         navTitle: 'Навігація',
         navPunishments: 'Система покарань',
         navGeneral: 'Загальні',
-        navRp: 'RolePlay',
-        navMeta: 'Meta / IC / OOC',
+        navRp: 'Рольова гра (RP)',
+        navMeta: 'Метагейм (MG) / IC / OOC',
         navEscape: 'Відхід від RP',
         navTransport: 'Транспорт',
         navChat: 'Спілкування',
         navCheats: 'Баги / Чити',
-        navAfk: 'AFK / FARM',
-        navAccounts: 'Аккаунти',
+        navAfk: 'AFK / автофарм',
+        navAccounts: 'Облікові записи',
         navEconomy: 'Економіка',
         navContent: 'Контент',
-        navAdmin: 'Адмін',
+        navAdmin: 'Адміністрація',
         navRecidiv: 'Рецидив',
         navZzz: 'ЗЗ',
+        navPdd: 'ПДР',
         groupGeneralTitle: '1. Загальні правила',
         groupGeneralDesc: 'Основи поведінки на сервері',
-        groupRpTitle: '2. Role Play',
+        groupRpTitle: '2. Рольова гра (RP)',
         groupRpDesc: 'Логіка персонажа та RP-поведінка',
-        groupMetaTitle: '3. Meta / IC / OOC',
+        groupMetaTitle: '3. Метагейм (MG) / IC / OOC',
         groupMetaDesc: 'Взаємодія ігрового світу та реальності',
         groupEscapeTitle: '4. Відхід від RP',
         groupEscapeDesc: 'Ухилення від сценарної ситуації',
@@ -2104,9 +2389,9 @@
         groupChatDesc: 'Чат, наклеп, реклама та конфлікти',
         groupCheatsTitle: '7. Баги та чити',
         groupCheatsDesc: 'Заборонене програмне забезпечення та помилки',
-        groupAfkTitle: '8. AFK / FARM',
+        groupAfkTitle: '8. AFK / автофарм',
         groupAfkDesc: 'Автофарм, AFK та автоматизація',
-        groupAccountsTitle: '9. Аккаунти',
+        groupAccountsTitle: '9. Облікові записи',
         groupAccountsDesc: 'Обхід блокувань та безпека облікового запису',
         groupEconomyTitle: '10. Ігрова економіка',
         groupEconomyDesc: 'Валюта, ресурси та торгівля',
@@ -2120,24 +2405,32 @@
         groupPunishmentsDesc: 'Базова система відповідальності',
         groupZzzTitle: '13.5. ЗЗ — Зелена зона',
         groupZzzDesc: 'Безпечна територія для відпочинку та безконфліктної гри',
+        groupPddTitle: '14. Правила дорожнього руху (ПДР)',
+        groupPddDesc: 'Обов’язки водіїв, штрафи та ДТП',
+        pddSectionGeneral: 'Розділ I. Загальні обов’язки водіїв',
+        pddSectionSpeed: 'Розділ II. Швидкість і маневри',
+        pddSectionParking: 'Розділ III. Зупинка та стоянка',
+        pddSectionAccidents: 'Розділ IV. ДТП',
         navRules: 'Правила',
         navContacts: 'Контакти',
         heroLine1: 'Чесна гра.',
-        heroLine2: 'Повагa.',
+        heroLine2: 'Повага.',
         heroLine3: 'Репутація.',
-        heroSubtitle: 'Правила сервера створені для комфортного і справедливого RolePlay. Вони відповідають за якість атмосфери, взаємодію між гравцями та стабільну гру без хаосу.',
+        heroSubtitle: 'Правила сервера створені для комфортної та справедливої рольової гри (RP). Вони підтримують якісну атмосферу, взаємодію між гравцями та стабільну гру без хаосу.',
         rulesTitle: 'Правила сервера',
         rulesSubtitle: 'Оберіть розділ або скористайтеся пошуком за потрібним пунктом.',
         searchPlaceholder: 'Пошук правила, бану або штрафу...',
-        filterAll: 'Всі',
+        filterAll: 'Усі',
         filterLightCases: 'Легкі випадки',
-        filterBans: 'Бани',
+        filterFines: 'Штрафи',
+        filterBans: 'Блокування',
         filterHeavy: 'Тяжкі',
         emptyTitle: 'Нічого не знайдено',
         emptySubtitle: 'Спробуйте змінити запит або фільтр.'
       },
       ru: {
         documentTitle: 'RivalRP | Правила сервера',
+        entryWelcome: 'Добро пожаловать в RivalRP',
         searchAria: 'Поиск по правилам',
         greenMapAlt: 'Карта зелёных зон RivalRP',
         greenMapCaption: 'Карта зелёных зон сервера RivalRP',
@@ -2170,7 +2463,7 @@
         themeDark: 'Тёмная',
         themeSwitchToLight: 'Переключить на светлую тему',
         themeSwitchToDark: 'Переключить на тёмную тему',
-        projectDoc: 'Уже 13.5 разделов',
+        projectDoc: 'ДОКУМЕНТ ПРОЕКТА',
         projectStatus: 'Активно',
         projectSummary: 'Обязательны для всех игроков независимо от опыта, ранга и роли.',
         statSections: 'Разделов',
@@ -2192,6 +2485,7 @@
         navAdmin: 'Админ',
         navRecidiv: 'Рецидив',
         navZzz: 'ЗЗ',
+        navPdd: 'ПДД',
         groupGeneralTitle: '1. Общие правила',
         groupGeneralDesc: 'Основы поведения на сервере',
         groupRpTitle: '2. Role Play',
@@ -2222,23 +2516,157 @@
         groupPunishmentsDesc: 'Базовая система ответственности',
         groupZzzTitle: '13.5. ЗЗ — Зелёная зона',
         groupZzzDesc: 'Безопасная территория для отдыха и бесконфликтной игры',
+        groupPddTitle: '14. Правила дорожного движения (ПДД)',
+        groupPddDesc: 'Обязанности водителей, штрафы и ДТП',
+        pddSectionGeneral: 'Раздел I. Общие обязанности водителей',
+        pddSectionSpeed: 'Раздел II. Скорость и манёвры',
+        pddSectionParking: 'Раздел III. Остановка и стоянка',
+        pddSectionAccidents: 'Раздел IV. ДТП',
         navRules: 'Правила',
         navContacts: 'Контакты',
         heroLine1: 'Честная игра.',
         heroLine2: 'Уважение.',
         heroLine3: 'Репутация.',
-        heroSubtitle: 'Правила сервера созданы для комфортной и справедливой RolePlay. Они обеспечивают качественную атмосферу, взаимодействие между игроками и стабильную игру без хаоса.',
+        heroSubtitle: 'Правила сервера созданы для комфортной и справедливой ролевой игры. Они обеспечивают качественную атмосферу, взаимодействие между игроками и стабильную игру без хаоса.',
         rulesTitle: 'Правила сервера',
         rulesSubtitle: 'Выберите раздел или воспользуйтесь поиском по нужному пункту.',
         searchPlaceholder: 'Поиск правила, бана или штрафа...',
         filterAll: 'Все',
         filterLightCases: 'Лёгкие случаи',
+        filterFines: 'Штрафы',
         filterBans: 'Баны',
         filterHeavy: 'Тяжёлые',
         emptyTitle: 'Ничего не найдено',
         emptySubtitle: 'Попробуйте изменить запрос или фильтр.'
       }
     };
+
+    const ruleSectionTranslations = {
+      uk: [
+        { title: '1. Правила дорожнього руху', description: 'Правила дорожнього руху та обов’язки водіїв.', navigation: 'ПДР' },
+        { title: '2. Зброя', description: 'Використання, носіння та правила поводження зі зброєю.', navigation: 'Зброя' },
+        { title: '3. Голосовий чат', description: 'Музика, перебивання та порушення в голосових каналах.', navigation: 'Голосовий чат' },
+        { title: '4. Напад', description: 'Умисне вбивство, насильство та напади на гравців.', navigation: 'Напад' },
+        { title: '5. NRP-поведінка', description: 'Порушення правил рольової гри та логіки персонажа.', navigation: 'NRP-поведінка' },
+        { title: '6. Пограбування', description: 'Правила пограбування різних місць і об’єктів.', navigation: 'Пограбування' },
+        { title: '7. NRP-поліція', description: 'Нереалістична поведінка поліції та порушення правил рольової гри.', navigation: 'NRP-поліція' },
+        { title: '8. Цькування', description: 'Образи, цькування та погрози.', navigation: 'Цькування' },
+        { title: '9. Суд', description: 'Судові рішення, робота суддів і дотримання правосуддя.', navigation: 'Суд' },
+        { title: '10. Реклама', description: 'Спам, реклама та провокації.', navigation: 'Реклама' },
+        { title: '11. Чити', description: 'Використання заборонених програм, багів та вразливостей гри.', navigation: 'Чити' },
+        { title: '12. Стрибки з прискоренням', description: 'Заборонене використання стрибків для отримання переваги.', navigation: 'Стрибки з прискоренням' },
+        { title: '13. Процесуальні дії', description: 'Порушення процедур під час роботи поліції та суду.', navigation: 'Процесуальні дії' },
+        { title: '14. Ухилення від покарання', description: 'Спроби уникнути штрафу, блокування чи іншого покарання.', navigation: 'Ухилення від покарання' },
+        { title: '15. Проникнення на територію', description: 'Порушення правил перебування на чужій території.', navigation: 'Проникнення на територію' },
+        { title: '16. Державні служби', description: 'Правила взаємодії з медиками, державними службами та їхнім майном.', navigation: 'Державні служби' },
+        { title: '17. Зелені зони', description: 'Заборонені дії на території зелених зон.', navigation: 'Зелені зони' },
+        { title: '18. Відмички', description: 'Правила використання відмичок і зняття наручників.', navigation: 'Відмички' }
+      ],
+      ru: [
+        { title: '1. Правила дорожного движения', description: 'Правила дорожного движения и обязанности водителей.', navigation: 'ПДД' },
+        { title: '2. Оружие', description: 'Использование, ношение и правила обращения с оружием.', navigation: 'Оружие' },
+        { title: '3. Голосовой чат', description: 'Музыка, перебивания и нарушения в голосовых каналах.', navigation: 'Голосовой чат' },
+        { title: '4. Нападение', description: 'Убийство, насилие и нападения на игроков.', navigation: 'Нападение' },
+        { title: '5. NRP-поведение', description: 'Нарушение правил ролевой игры и логики персонажа.', navigation: 'NRP-поведение' },
+        { title: '6. Ограбления', description: 'Правила ограбления различных мест и объектов.', navigation: 'Ограбления' },
+        { title: '7. NRP-полиция', description: 'Нереалистичное поведение полиции и нарушение правил ролевой игры.', navigation: 'NRP-полиция' },
+        { title: '8. Травля', description: 'Оскорбления, травля и угрозы.', navigation: 'Травля' },
+        { title: '9. Суд', description: 'Судебные решения, работа судей и соблюдение правосудия.', navigation: 'Суд' },
+        { title: '10. Реклама', description: 'Спам, реклама и провокации.', navigation: 'Реклама' },
+        { title: '11. Читы', description: 'Использование запрещённых программ, багов и уязвимостей игры.', navigation: 'Читы' },
+        { title: '12. Прыжки с ускорением', description: 'Запрещённое использование прыжков для получения преимущества.', navigation: 'Прыжки с ускорением' },
+        { title: '13. Процессуальные действия', description: 'Нарушение процедур при работе полиции и суда.', navigation: 'Процессуальные действия' },
+        { title: '14. Уклонение от наказания', description: 'Попытки избежать штрафа, блокировки или другого наказания.', navigation: 'Уклонение от наказания' },
+        { title: '15. Проникновение на территорию', description: 'Нарушение правил нахождения на чужой территории.', navigation: 'Проникновение на территорию' },
+        { title: '16. Государственные службы', description: 'Правила взаимодействия с медиками, государственными службами и их имуществом.', navigation: 'Государственные службы' },
+        { title: '17. Зелёные зоны', description: 'Запрещённые действия на территории зелёных зон.', navigation: 'Зелёные зоны' },
+        { title: '18. Отмычки', description: 'Правила использования отмычек и снятия наручников.', navigation: 'Отмычки' }
+      ]
+    };
+
+    const ruleTitleTranslationsRu = [
+      'Езда по встречной полосе',
+      'Проезд на красный свет',
+      'Выключенные фары в темное время суток',
+      'Неправильная парковка',
+      'Неиспользование указателей поворота',
+      'Неосторожное вождение',
+      'Скрытие с места ДТП',
+      'Обгон автомобиля',
+      'Использование проблесковых маячков без необходимости',
+      'Сельскохозяйственный транспорт в городе',
+      'Уход от преследования полиции',
+      'Превышение скорости более чем на 150 км/ч',
+      'Подрезание автомобиля',
+      'Открытое ношение оружия',
+      'Использование оружия без лицензии',
+      'Использование оружия без причины',
+      'Передача оружия другим лицам',
+      'Использование оружия в городе без оснований',
+      'Громкая музыка и посторонние звуки',
+      'Русская музыка',
+      'Перебивание',
+      'Сексуальные звуки',
+      'Российская пропаганда',
+      'Убийство транспортом (VDM)',
+      'Случайное убийство (RDM)',
+      'Убийство из мести после возрождения (RK)',
+      'Нападение (DM) от 3 ударов',
+      'Убийство',
+      'Нереалистичные действия персонажа (PG)',
+      'Метагейминг (MG)',
+      'Нарушение логики ролевой игры',
+      'Провокация полиции без причины',
+      'Убийство AFK-персонажа',
+      'Отсутствие страха за жизнь персонажа',
+      'Выход из игры во время активной RP-ситуации',
+      'Помеха офицеру при задержании или погоне и его убийство',
+      'Поездка с преступником в полицейском автомобиле',
+      'Ограбление заправки',
+      'Ограбление магазина',
+      'Ограбление ювелирного магазина',
+      'Ограбление банка',
+      'Ограбление торгового автомата',
+      'Ограбление контейнера',
+      'Ограбление клуба',
+      'Безосновательное применение наручников',
+      'XP без разрешения игрока',
+      'Проверка базы данных на розыск',
+      'Применение наручников ради мести, троллинга или травли',
+      'Использование электрошокера без причины',
+      'Применение силы без необходимости',
+      'Отходить от полиции дальше чем на 5 метров',
+      'Доставка в КПЗ без суда',
+      'Травля, сексуальный контент и подобное',
+      'Травля родственников',
+      'Перебивание судьи, адвоката или прокурора',
+      'Игнорирование решения суда',
+      'Сокрытие друзей или знакомых',
+      'Воспрепятствование суду',
+      'Давление на судью, адвоката или прокурора',
+      'Неуважение к судье',
+      'Реклама, спам и провокации',
+      'Читы, использование багов и прочее',
+      'Прыжки с ускорением',
+      'Отсутствие видеозаписи нарушения и задержания',
+      'Непредставление (звание, имя, должность)',
+      'Непредоставление прав Миранды',
+      'Уклонение от наказания, штрафа или бана',
+      'Выход во время RP',
+      'Проникновение на чужую территорию',
+      'Присвоение чужой территории',
+      'Не уступил дорогу скорой помощи на вызове',
+      'Убийство государственного служащего',
+      'Повреждение автомобиля государственного служащего',
+      'Сокрытие преступления',
+      'Запрещены драки',
+      'Запрещена стрельба',
+      'Маска, броня, жилет',
+      'Отмычка без RP-отыгровки',
+      'Снятие наручников отмычкой в зеленой зоне',
+      'Снятие наручников отмычкой рядом с убитым полицейским',
+      'Использование отмычки, когда преступник находится в машине'
+    ];
 
     const ruleTranslations = {
       '1.1': 'Незнание правил проекта не освобождает от ответственности.',
@@ -2318,7 +2746,38 @@
       '13.5.3': 'В ЗЗ запрещено доставать или использовать нелегальные предметы.',
       '13.5.4': 'В ЗЗ запрещено находиться в маске.',
       '13.5.5': 'В ЗЗ запрещено начинать драки и конфликты.',
-      '13.5.6': 'В ЗЗ запрещено совершать ограбления, похищения и другие преступления.'
+      '13.5.6': 'В ЗЗ запрещено совершать ограбления, похищения и другие преступления.',
+      'traffic-1.1': 'Водитель обязан соблюдать правила дорожного движения, дорожные знаки и требования разметки.',
+      'traffic-1.2': 'Водитель обязан иметь водительское удостоверение соответствующей категории.',
+      'traffic-1.3': 'Водитель обязан остановиться по законному требованию сотрудника ДПС.',
+      'traffic-1.4': 'Водитель обязан уступать дорогу пешеходам на пешеходных переходах.',
+      'traffic-1.5': 'Водитель обязан уступать дорогу автомобилям экстренных служб с включёнными спецсигналами.',
+      'traffic-1.6': 'Запрещается управлять транспортным средством в состоянии опьянения.',
+      'traffic-1.7': 'Запрещается передавать управление автомобилем лицу без водительского удостоверения.',
+      'traffic-1.8': 'Запрещается использовать автомобиль для намеренного создания аварийной ситуации.',
+      'traffic-2.1': 'Превышение скорости до 20 км/ч.',
+      'traffic-2.2': 'Превышение скорости на 20–40 км/ч.',
+      'traffic-2.3': 'Превышение скорости на 40–60 км/ч.',
+      'traffic-2.4': 'Превышение скорости более чем на 60 км/ч.',
+      'traffic-2.5': 'Проезд на запрещающий сигнал светофора.',
+      'traffic-2.6': 'Выезд на встречную полосу с нарушением правил.',
+      'traffic-2.7': 'Нарушение правил обгона.',
+      'traffic-2.8': 'Пересечение сплошной линии с нарушением правил.',
+      'traffic-2.9': 'Опасное перестроение.',
+      'traffic-2.10': 'Движение задним ходом в запрещённом месте.',
+      'traffic-2.11': 'Несоблюдение безопасной дистанции.',
+      'traffic-2.12': 'Участие в нелегальных гонках.',
+      'traffic-3.1': 'Остановка в запрещённом месте.',
+      'traffic-3.2': 'Парковка на тротуаре.',
+      'traffic-3.3': 'Парковка на месте для инвалидов без разрешения.',
+      'traffic-3.4': 'Блокирование выезда или проезда.',
+      'traffic-3.5': 'Парковка на остановке общественного транспорта.',
+      'traffic-3.6': 'Оставление автомобиля на проезжей части без необходимости.',
+      'traffic-4.1': 'При ДТП водитель обязан остановиться и не покидать место происшествия без законных оснований.',
+      'traffic-4.2': 'При наличии пострадавших водитель обязан вызвать экстренные службы.',
+      'traffic-4.3': 'Запрещается скрываться с места ДТП.',
+      'traffic-4.4': 'Запрещается намеренно создавать ДТП.',
+      'traffic-4.5': 'Водитель обязан предоставить сотрудникам полиции сведения об обстоятельствах ДТП.'
     };
 
     const russianPenaltyText = {
@@ -2329,7 +2788,10 @@
       'Залежить від повтору та серйозності порушення': 'Зависит от повторности и серьёзности нарушения',
       'Адміністративна перевірка': 'Проверка администрацией',
       'Скасування / перевірка': 'Отмена наказания / проверка',
-      'Попередження, штраф або бан': 'Предупреждение, штраф или блокировка'
+      'Попередження, штраф або бан': 'Предупреждение, штраф или блокировка',
+      'Не зазначено в наданому тексті': 'Не указано в исходном тексте',
+      'Штраф: 5 000 € і позбавлення водійських прав': 'Штраф: 5 000 € и лишение водительских прав',
+      'КоАП РФ або КК РФ залежно від обставин': 'КоАП РФ или УК РФ в зависимости от обстоятельств'
     };
 
     const search = document.getElementById('search');
@@ -2341,7 +2803,6 @@
     const hoverTargets = document.querySelectorAll('.rule, .side-link');
     const year = document.getElementById('year');
     const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = themeToggle?.querySelector('.theme-toggle__icon');
     const themeLabel = themeToggle?.querySelector('.theme-toggle__label');
     const langSwitch = document.querySelector('.lang-switch');
     const entryScreen = document.getElementById('entryScreen');
@@ -2405,8 +2866,53 @@
         ' — безстрокове блокування.',
         'У разі повторного порушення строк покарання може бути збільшений незалежно від попереднього покарання.',
         'Тяжкість покарання визначається з урахуванням порушення, обставин, повторності та наявності доказів.'
-      ]
+      ],
+      termNames: ['Попередження', 'Тайм-аут', 'Блокування', 'Безстрокове блокування'],
+      termNamesRu: ['Предупреждение', 'Тайм-аут', 'Блокировка', 'Бессрочная блокировка']
     };
+
+    function translateDiscordPenalty(text, lang) {
+      if (lang === 'ru') {
+        return text
+          .replace(/\bBan (\d+)[–-](\d+)d\b/gi, 'бан на срок от $1 до $2 дн.')
+          .replace(/\bBan (\d+)d\b/gi, (_match, days) => {
+            const number = Number(days);
+            const lastTwoDigits = number % 100;
+            const lastDigit = number % 10;
+            const unit = lastTwoDigits >= 11 && lastTwoDigits <= 14
+              ? 'дней'
+              : lastDigit === 1 ? 'день' : lastDigit >= 2 && lastDigit <= 4 ? 'дня' : 'дней';
+            return `бан на ${number} ${unit}`;
+          })
+          .replace(/\bTimeout (\d+)[–-](\d+)h\b/gi, 'ограничение общения на срок от $1 до $2 ч.')
+          .replace(/\bTimeout (\d+)h\b/gi, 'ограничение общения на $1 ч.')
+          .replace(/Permanent Ban/gi, 'бессрочная блокировка')
+          .replace(/Server Mute/gi, 'голосовой мут на сервере')
+          .replace(/\bWarn\b/gi, 'предупреждение')
+          .replace(/\bTimeout\b/gi, 'временное ограничение общения')
+          .replace(/\bMute\b/gi, 'мут')
+          .replace(/\bBan\b/gi, 'бан');
+      }
+      return text
+        .replace(/\bBan (\d+)[–-](\d+)d\b/gi, 'блокування на строк від $1 до $2 днів')
+        .replace(/\bBan (\d+)d\b/gi, (_match, days) => {
+          const number = Number(days);
+          const lastTwoDigits = number % 100;
+          const lastDigit = number % 10;
+          const unit = lastTwoDigits >= 11 && lastTwoDigits <= 14
+            ? 'днів'
+            : lastDigit === 1 ? 'день' : lastDigit >= 2 && lastDigit <= 4 ? 'дні' : 'днів';
+          return `блокування на ${number} ${unit}`;
+        })
+        .replace(/\bTimeout (\d+)[–-](\d+)h\b/gi, 'обмеження спілкування на строк від $1 до $2 годин')
+        .replace(/\bTimeout (\d+)h\b/gi, 'обмеження спілкування на $1 год.')
+        .replace(/Permanent Ban/gi, 'безстрокове блокування')
+        .replace(/Server Mute/gi, 'голосове обмеження на сервері')
+        .replace(/\bWarn\b/gi, 'попередження')
+        .replace(/\bTimeout\b/gi, 'тимчасове обмеження спілкування')
+        .replace(/\bMute\b/gi, 'вимкнення мікрофона')
+        .replace(/\bBan\b/gi, 'блокування');
+    }
 
     function applyDiscordRulesLanguage(lang) {
       const isUkrainian = lang === 'uk';
@@ -2425,9 +2931,24 @@
         if (!element.dataset.discordRu) element.dataset.discordRu = element.textContent;
         element.textContent = isUkrainian ? discordRuleUkTranslations.terms[index] : element.dataset.discordRu;
       });
+      discordRulesDialog?.querySelectorAll('.discord-rules-terms > p > strong').forEach((element, index) => {
+        if (!element.dataset.discordRu) element.dataset.discordRu = element.textContent;
+        element.textContent = isUkrainian ? discordRuleUkTranslations.termNames[index] : discordRuleUkTranslations.termNamesRu[index];
+      });
       discordRulesDialog?.querySelectorAll('.discord-rule-penalty > strong').forEach(label => {
         if (!label.dataset.discordRu) label.dataset.discordRu = label.textContent;
         label.textContent = isUkrainian ? (label.dataset.discordUk || 'Покарання:') : label.dataset.discordRu;
+      });
+      discordRulesDialog?.querySelectorAll('.discord-rule-penalty').forEach(penalty => {
+        const label = penalty.querySelector(':scope > strong');
+        if (!label) return;
+        if (!penalty.dataset.discordSource) {
+          penalty.dataset.discordSource = [...penalty.childNodes]
+            .filter(node => node !== label)
+            .map(node => node.textContent)
+            .join('');
+        }
+        penalty.replaceChildren(label, document.createTextNode(translateDiscordPenalty(penalty.dataset.discordSource, lang)));
       });
     }
 
@@ -2469,6 +2990,12 @@
       document.title = t.documentTitle;
       if (langSwitch) langSwitch.dataset.lang = lang;
       if (entryScreen) entryScreen.dataset.hoverLang = lang;
+      langSwitch?.setAttribute('aria-label', lang === 'ru' ? 'Выбор языка' : 'Вибір мови');
+      entryScreen?.setAttribute('aria-label', lang === 'ru' ? 'Выбор языка' : 'Вибір мови');
+      document.querySelector('.brand')?.setAttribute('aria-label', lang === 'ru' ? 'RivalRP — главная страница' : 'RivalRP — головна сторінка');
+      document.querySelector('.navlinks')?.setAttribute('aria-label', lang === 'ru' ? 'Главная навигация' : 'Головна навігація');
+      document.querySelector('.filter-tabs')?.setAttribute('aria-label', lang === 'ru' ? 'Фильтры правил' : 'Фільтри правил');
+      document.querySelector('.search-wrap')?.setAttribute('aria-label', lang === 'ru' ? 'Поиск по правилам' : 'Пошук правил');
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         if (t[key]) el.textContent = t[key];
@@ -2490,26 +3017,72 @@
         const key = el.dataset.i18nAlt;
         if (t[key]) el.alt = t[key];
       });
+      const sectionText = ruleSectionTranslations[lang] || ruleSectionTranslations.uk;
+      groups.forEach((group, index) => {
+        const section = sectionText[index];
+        if (!section) return;
+        const title = group.querySelector('.rule-title h3');
+        const description = group.querySelector('.rule-title p');
+        if (title) title.textContent = section.title;
+        if (description) description.textContent = section.description;
+      });
+      sideLinks.forEach((link, index) => {
+        if (index === 0) return;
+        const label = link.querySelector('span:last-child');
+        const section = sectionText[index - 1];
+        if (label && section) label.textContent = section.navigation;
+      });
+      document.querySelector('.hero')?.setAttribute('aria-label', lang === 'ru' ? 'Вступление' : 'Вступ');
+      document.querySelector('.hero-panel')?.setAttribute('aria-label', lang === 'ru' ? 'Кратко о правилах' : 'Коротко про правила');
+      document.querySelector('#rules')?.setAttribute('aria-label', lang === 'ru' ? 'Раздел правил' : 'Розділ правил');
+      document.querySelector('.sidebar')?.setAttribute('aria-label', lang === 'ru' ? 'Навигация по правилам' : 'Навігація правилами');
       if (themeLabel) themeLabel.textContent = document.body.dataset.theme === 'dark' ? t.themeDark : t.themeLight;
       if (themeToggle) themeToggle.setAttribute('aria-label', document.body.dataset.theme === 'dark' ? t.themeSwitchToLight : t.themeSwitchToDark);
-      ruleElements.forEach(rule => {
-        const number = rule.querySelector(':scope > .num')?.textContent.trim();
+      ruleElements.forEach((rule, index) => {
+        const number = rule.dataset.translationKey || rule.querySelector(':scope > .num')?.textContent.trim();
         const title = rule.querySelector('.rule-title-inline');
         const punishmentLabel = rule.querySelector('.punishment-tag');
         const punishment = rule.querySelector('.rule-meta > span:last-child');
         if (!title || !punishment) return;
         if (!rule.dataset.ukTitle) rule.dataset.ukTitle = title.textContent;
         if (!rule.dataset.ukPunishment) rule.dataset.ukPunishment = punishment.textContent;
-        title.textContent = lang === 'ru' ? (ruleTranslations[number] || rule.dataset.ukTitle) : rule.dataset.ukTitle;
+        title.textContent = lang === 'ru' ? (ruleTitleTranslationsRu[index] || ruleTranslations[number] || rule.dataset.ukTitle) : rule.dataset.ukTitle;
         if (punishmentLabel) punishmentLabel.textContent = lang === 'ru' ? 'НАКАЗАНИЕ:' : 'ПОКАРАННЯ:';
-        punishment.textContent = lang === 'ru'
+        const translatedPunishment = lang === 'ru'
           ? (russianPenaltyText[rule.dataset.ukPunishment] || rule.dataset.ukPunishment.replace(/Permanent Ban/gi, 'Постоянная блокировка').replace(/\bBan\b/gi, 'Бан').replace(/днів/g, 'дней').replace(/зняття з посади/g, 'снятие с должности'))
           : rule.dataset.ukPunishment;
+        const localizedPunishment = lang === 'ru'
+          ? translatedPunishment
+            .replace(/Попередження/gi, 'Предупреждение')
+            .replace(/(^|\s)або(?=\s|[,.!?;:]|$)/gi, '$1или')
+            .replace(/днів/gi, 'дней')
+            .replace(/дні/gi, 'дня')
+            .replace(/назавжди/gi, 'навсегда')
+            .replace(/конфіскація/gi, 'конфискация')
+            .replace(/судді/gi, 'судьи')
+            .replace(/адміністрації/gi, 'администрации')
+            .replace(/Компенсація/gi, 'Компенсация')
+            .replace(/на розсуд/gi, 'по усмотрению')
+            .replace(/співучасників/gi, 'соучастников')
+            .replace(/поліцейського/gi, 'полицейского')
+            .replace(/держпрацівника/gi, 'госслужащего')
+            .replace(/Штраф за рішенням/gi, 'Штраф по решению')
+            .replace(/потім/gi, 'затем')
+            .replace(/\sі\s/g, ' и ')
+            .replace(/КПЗ або/gi, 'КПЗ или')
+            .replace(/Бан 1 день або Штраф 7000€/gi, 'Бан 1 день или штраф 7000€')
+          : translatedPunishment;
+        punishment.textContent = localizedPunishment.replace(/\d[\d\s]*€/g, (amount, offset, text) => {
+          return /штраф/i.test(text.slice(0, offset)) ? amount : `Штраф: ${amount.trim()}`;
+        });
         const isBan = /\bban\b|(?:^|[^а-яё])бан(?:$|[^а-яё])|постійний бан|постоянная блокировка/i.test(punishment.textContent);
+        const isJail = /кпз/i.test(punishment.textContent);
         punishment.classList.toggle('penalty-ban', isBan);
         punishment.classList.toggle('penalty-other', !isBan);
+        punishment.classList.toggle('penalty-jail', isJail);
         punishmentLabel?.classList.toggle('penalty-ban', isBan);
         punishmentLabel?.classList.toggle('penalty-other', !isBan);
+        punishmentLabel?.classList.toggle('penalty-jail', isJail);
       });
       const emptyTitle = document.querySelector('.empty-title');
       const emptySubtitle = document.querySelector('.empty-subtitle');
@@ -2527,7 +3100,6 @@
     function applyTheme(theme) {
       const isDark = theme === 'dark';
       document.body.dataset.theme = theme;
-      if (themeIcon) themeIcon.textContent = isDark ? '☾' : '☀';
       const t = translations[document.documentElement.lang] || translations.uk;
       if (themeLabel) themeLabel.textContent = isDark ? t.themeDark : t.themeLight;
       if (themeToggle) {
@@ -2537,8 +3109,8 @@
     }
 
     const savedTheme = localStorage.getItem('rivalrp-theme') || 'light';
-    const savedLang = localStorage.getItem('rivalrp-lang') || 'uk';
     applyTheme(savedTheme);
+    const savedLang = localStorage.getItem('rivalrp-lang') === 'ru' ? 'ru' : 'uk';
     applyLanguage(savedLang);
     document.body.classList.add('entry-open');
 
@@ -2595,7 +3167,7 @@
       const penalty = getRulePenaltyMeta(rule.querySelector('.rule-meta')?.textContent || '');
 
       if (activeFilter === 'light-cases') {
-        return rule.querySelector('.rule-meta > span:last-child')?.classList.contains('penalty-other') || false;
+        return !penalty.hasFine && (rule.querySelector('.rule-meta > span:last-child')?.classList.contains('penalty-other') || false);
       }
 
       if (activeFilter === 'fines') {
@@ -2631,6 +3203,11 @@
           const showRule = matchesSearch && ruleMatchesFilter(rule, activeFilter);
           rule.style.display = showRule ? 'grid' : 'none';
           if (showRule) count++;
+        });
+
+        group.querySelectorAll('.rule-section').forEach(section => {
+          const hasVisibleRules = [...section.querySelectorAll('.rule')].some(rule => rule.style.display !== 'none');
+          section.style.display = hasVisibleRules ? 'grid' : 'none';
         });
 
         group.style.display = count ? 'block' : 'none';
